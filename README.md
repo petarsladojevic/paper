@@ -1,18 +1,18 @@
 # paper
 Paper program is intended to enable user to quickly create online sketches, export ready. 
 
-  "About" : "Hello stranger, my name is PAPER. I've been created, to make notes, by drawing, fast, versatile and easy",
-  "⏻"     : "Power",
-  "+"     : "Upload image file",
-  "⮐"    : "Undo last draw",
-  "⮑"    : "Redo last undo",
-  "⛏"     : "Export as: [width/height/type] OR use default",
-  "⎕⎕"    : "Gallery holds all papers, you created",
-  "✐"     : "Pencil",
-  "m"     : "Marker is fixed size and lighter color shade",
-  "c"     : "Crayon add's light shades",
-  "🆃"    : "Uploaded text can be put onto paper, select box from where and width to wrap around",
-  "⛶"     : ``
+  About :  Hello stranger, my name is PAPER. I've been created, to make notes, by drawing, fast, versatile and easy,
+  ⏻     :  Power,
+  +     :  Upload image file,
+  ⮐    :  Undo last draw,
+  ⮑    :  Redo last undo,
+  ⛏     :  Export as: [width/height/type] OR use default,
+  ⎕⎕    :  Gallery holds all papers, you created,
+  ✐     :  Pencil,
+  m     :  Marker is fixed size and lighter color shade,
+  c     :  Crayon add's light shades,
+  🆃    :  Uploaded text can be put onto paper, select box from where and width to wrap around,
+  ⛶     :  
 <pre>
 Select box creates selection of paper:
 
@@ -24,26 +24,22 @@ x     : Cut (copy+delete)
 c     : Copy
 v     : Paste
 s     : Save cut to Gallery
-</pre>
-  `,
-  "⏊"     :  `<pre>
+⏊     : Stamp 
 Stamper stamps, or draw\'s with uploaded image
 Commands:
 0     : Revert to natural size
 -     : Diminish image size
-+/=   : Enlarge image size
-</pre>`,
-  "//" : "Smart text allows user to pick any character as pointer in draw",
-  "▊"    : "Eraser",
-  "⟶"   : "Line",
-  "●"    : "Color palete of rainbow colors + black/white spectar",
-  "⚑"    : "Color picker detect's any color from canvas (good for uploaded image color detecting)",
-  "♺"    : "Recycle design",
-  "?"    : "Help",
-  "point-control" : `・・・・・・<span class="large">●</span>・・        (0-max) = stroke, max = fill shape`,
-  "<span style='color:var(--bluish)'>.</span>" : "Data inside...",
-  "Keyboard" : `
-<pre>
++/=   : Enlarge image size,
+//    : Smart text allows user to pick any character as pointer in draw,
+▊     : Eraser,
+⟶    : Line,
+●     : Color palete of rainbow colors + black/white spectar,
+⚑     : Color picker detect's any color from canvas (good for uploaded image color detecting),
+♺     : Recycle design,
+?     : Help,
+point-control : `・・・・・・<span class="large">●</span>・・        (0-max) = stroke, max = fill shape`,
+<span style='color:var(--bluish)'>.</span>" : Data inside...,
+Keyboard : 
           KEYBOARD shortcuts
           ________________________________
           ESC . . . . . . . . . . . .  POW
