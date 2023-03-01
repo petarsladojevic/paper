@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head><meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="setup/icon.png" type="image/png">
+  <link  rel="preload stylesheet"
+         as="style"
+         href="./lib/cloak.css">
+  <link  rel="preload stylesheet"
+         as="style"
+         href="style.css">
+
+ <title>Paper</title>
+ </head>
+   <body class='no-overflow-app no-selection'>
+<div class="container flex">
+    <div class="sidebar">
+      <form>
+        <input type="file" id="readFile"  hidden='true'  accept="image/*, text/*" />   <!-- HIDDEN READER OF FILE -->
+      </form>
+       <div class="power clicker"    title="RELOAD" >⏻</div>
+       <div class="new clicker"      titler="NEW" >+</div>
+       <!-- <div class="save clicker back-face disabled"   title="SAVE" ></div> -->
+       <div class="undo clicker"     title="UNDO" >⮐</div>
+       <div class="redo clicker"     title="REDO" >⮑</div>
+       <div class="export clicker"   title="EXPORT" >⛏</div>
+       <div class="gallery clicker"  title="GALLERY" >⎕⎕</div>
+       <div class="pen clicker back-face active"  title="PEN"></div>
+       <div class="pencil clicker back-face"  title="PENCIL"></div>
+       <div class="marker clicker back-face"  title="MARKER"></div>
+       <div class="crayon clicker back-face"  title="CRAYON"></div>
+       <div class="text-to-paper clicker"    title="TEXT TO PAPER">🆃</div>
+       <div class="select clicker"   title="SELECT">⛶</div>
+       <div class="stamper clicker back-face"  title="STAMPER"></div>
+       <div class="clicker"          title="SMART TEXT">
+            <input type="text" value="" class="smart_text clicker" placeholder="  //" />
+       </div>
+       <div class="eraser clicker back-face"  title="ERASER" ></div>
+       <div class="line clicker"     title="LINE" >⟶</div>
+       <div class="color clicker back-face"  title="COLOR" >•</div>
+       <div class="color-detect clicker back-face"  title="COLOR DETECTOR"></div>
+       <div class="trash clicker  back-face"    title="RECYCLE DESIGN" >♺</div>
+       <div class="help clicker"     title="HELP" >?</div>
+    <div class="point-c-holder">
+         <input type="range"  class="point-control" value="5" min="1" max="30" title="POINT CONTROL" />
+    </div>
+
+</div>
+ <div class="gallery-holder">
+   <div class="gallery-view"></div>
+   <div class="gallery-control">
+     <input type="button" class="delete-mode clicker" value="delete" title="DELETE-MODE" />
+   </div>
+ </div>
+    <div class="paper-holder">
+      <canvas id="paper"></canvas>
+   </div>
+</div>
+<div class="restovi">
+  <canvas class="color-picker"></canvas>
+  <div class="help-holder"></div>
+  <div class="tracker">
+    <span class="cors"></span>
+  </div>
+</div>
+
+<script src="help.js"></script>
+<script src="functions.js"></script>
+<script src="paper.js"></script>
+ </body>
+</html>

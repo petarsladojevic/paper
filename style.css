@@ -1,0 +1,390 @@
+:root{
+    --textColor       : #b2b4b5fc;  /* NICE SILVER COLOR */
+    --secondTextColor : #70797e;    /* old solution:  #747474; */
+    --notSoWhite      : #f0f8ff9c;
+    --bluish          : #69caf8;
+    --faded           : #0000003c;
+    --seeThroughGlass : #0000001a;
+    --focusColor      : #3b414d3d;
+    /* COLORS for coding */
+    --gold            : rgb(209 154 102);
+    --green           : rgb(139 212 88);  /*rgb(150 193 120);  atom original*/
+    --red             : rgb(202 99 109);
+    --silver          : rgb(161 168 181);
+    --nums            : #363d49;
+    --start           : 0;
+    --metal           : rgb(40 44 52);
+    --s: 100px; /* control the size */
+   --_g: #0000 90deg,#366 0;
+   --date : '';
+}
+
+html{ min-height: 100%; height: 100%; }
+body{
+  background: var(--metal);
+  color: var(--secondTextColor);
+  font-size: 13px;
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  font-family: menlo;
+  cursor: url("images/circle(16x16).svg") 8 8, default;
+  caret-color: var(--green);
+}
+.container{
+  min-height: 100%;
+  height: 100vh;
+}
+.sidebar{
+  overflow-x: hidden;
+  width: min-content;
+  text-align: center;
+  display: grid;
+  align-items: center;
+  min-width: 20px;
+  height: 90%;
+  grid-row-gap: 15px;
+}
+.sidebar> form{
+  width: 1px;
+}
+.sidebar> div{
+ position: relative;
+}
+.paper-holder{
+   width: 100%;
+   height: 100%;
+   background : var(--faded);
+}
+#paper{}
+.gallery-holder{
+  display : none;
+  width: 18pc;
+  min-width: 18pc;
+  height : 100%;
+  /* background: #343a42; */
+  left: 1.45%;
+  box-shadow: inset 0px 0px 1px black;
+}
+.gallery-view{
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row-gap: 25%;
+  min-width: 18pc;
+  justify-items: center;
+  display: grid;
+  padding: 4% 0px;
+  height: 100%;
+  max-height: 93%;
+  overflow-y: scroll;
+  grid-auto-rows: 120px;
+  grid-gap: 5px;
+}
+.gallery-control{
+  align-self: flex-end;
+  position: absolute;
+  bottom: 0;
+}
+.gallery-file{
+  background : silver;
+  width: 4pc;
+  height: 5pc;
+  position: relative;
+  background-size: contain!important;
+  background-repeat: no-repeat!important;
+  outline: 1px solid black;
+  border-radius: 2px;
+  backdrop-filter: brightness(0.8);
+  animation: zoomIn .66s;
+  background-position: right!important;
+}
+.gallery-file:active{
+  outline: 2px solid black;
+}
+.gallery-file:hover{
+  backdrop-filter: brightness(0.66);
+}
+.gallery-file > span{
+  position: absolute;
+  bottom: 0;
+  background: #01010152;
+}
+.gallery-file-name{
+  bottom: -17px;
+  left : 10px;
+  width: 55px;
+  overflow-x: scroll;
+}
+.gallery-file-export{
+  bottom: 0;
+  color: var(--green);
+  font-size: 11px;
+  overflow: hidden;
+  min-height: -webkit-fill-available;
+}
+.gallery-file-export:hover{
+  color: snow;
+}
+.wiggle{
+  animation: wiggle 2s;  /*iphoneDelete 1.5s; */
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+}
+.kill-btn{
+  background: var(--red);
+  color: var(--red);
+  border-radius: 100px;
+  width: 13px;
+  height: 13px;
+  text-align: center;
+  right: 0;
+  position: absolute;
+  line-height: 1;
+}
+.kill-btn:hover{
+  color: #653d3d;
+}
+.active{ color: snow; }
+.active::before{
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  left: 0px;
+  z-index: -1;
+  background: var(--faded);
+  border-radius: 100px;
+  top: -7px;
+}
+.clicker{
+  outline : none;
+  background : #0000;
+  border : none;
+  color : var(--secondTextColor);
+}
+.point-c-holder{
+  position: absolute!important;
+  bottom: 30px;
+  left: -25px;
+}
+.point-control{
+  transform: rotate(-90deg);
+  accent-color: #565b62;  //#1e2228;
+  color-scheme: dark;
+  appearance: none;
+  height: 13px;
+  min-width: auto;
+  background: #0000;
+  background-image: radial-gradient(#70797e, #0000 1.3px);
+  background-size: 4px 4px;
+  background-position: center;
+  width: 65px;
+}
+.power, .new, .export, .line, .trash, .color-detect, .stamper, .select, .marker{
+ font-size: 17px;
+}
+.eraser, .pencil{
+  font-size: 15px;
+}
+/* NOTIFY USER ABOUT SAVE */
+.save:active{
+  animation: simple-blink .2s;
+}
+.disabled{
+  user-select: none;
+  filter: brightness(0.5);
+  pointer-events: none;
+}
+.clicker:hover{
+  transform: translateY(-2px);
+  transition: 0.33s;
+}
+.clicker:not(hover){
+  transition: 0.22s;
+}
+.color-picker{
+  width : 200px;
+  height: 400px;
+  position: absolute;
+  top: 10%;
+  left: 4%;
+  display: none;
+}
+.smart_text{
+  width: 18px;
+  overflow-x: scroll;
+}
+.line{
+  transform: rotate(-55deg) rotateZ(45deg);
+}
+.large{
+  font-size: 20px;
+}
+
+#u_pick_box{
+  color: var(--textColor);
+  grid-row-gap: 5px;
+  background: var(--faded);
+}
+#u_pick_box > input{
+  background: var(--faded);
+  color: var(--textColor);
+  border: none;
+  outline: none;
+  border-radius: 2px;
+}
+#u_pick_box > input:focus{
+  outline: 2px solid var(--green);
+}
+#u_pick_box > button{
+  background: var(--metal);
+  border: none;
+}
+.help-holder{
+  position: absolute;
+  top: 0;
+  display: none;
+  right: 0;
+  left: 25px;
+  bottom: 0;
+  margin: auto;
+  padding: 20px 20%;
+}
+/* FOR ANY WITH background */
+.back-face{
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.back-face::after{
+  content: "⁭⁬";
+}
+.stamper{
+  color: #0000;
+}
+.tracker{
+  outline: 2px dashed var(--faded);
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+}
+.cors{
+  color: var(--secondTextColor);
+  font-size: 11px;
+}
+.bitno{
+  color: var(--green);
+}
+.filled::after{
+  content: ".";
+  width: 3px;
+  height: 3px;
+  color: var(--bluish);
+  position: absolute;
+  top: -10px;
+  right: 4px;
+}
+.running{
+   filter: contrast(0) sepia(1) hue-rotate(130deg);
+   transition: 0s!important;
+}
+
+/* PAPER HOLDER BACKGROUNDS */
+.design-btn{
+  width: 45px;
+  height: 20px;
+  margin-left: .5%;
+  background: #0000;
+  border: none;
+  color: var(--textColor);
+}
+.horizontal-lines-screen{
+  background-image: linear-gradient(0deg, #0003 1px, #0000 1px);
+  background-size: 1px 30px;
+}
+.squares-screen{
+  background-image: linear-gradient(90deg, #0003 1px, #0000 1px), linear-gradient(0deg, #0003 1px, #0000 1px);
+  background-size: 30px 30px;
+}
+.half-screen{
+  background-image: linear-gradient(90deg, #0003 1px, #0000 1px);
+  background-size: calc(100%/2) 1px;
+}
+.tertile-screen{
+  background-image: linear-gradient(90deg, #0003 1px, #0000 1px);
+  background-size: calc(100%/3) 1px;
+}
+.quarter-screen{
+  background-image: linear-gradient(90deg, #0003 1px, #0000 1px);
+  background-size: calc(100%/4) 1px;
+}
+.three-by-three-screen{
+  background-image: linear-gradient(90deg, #0003 1px, #0000 1px), linear-gradient(0deg, #0003 1px, #0000 1px);
+  background-size: calc(100%/3) calc(100%/3);
+}
+.two-by-two-screen{
+  background-image: linear-gradient(90deg, #0003 1px, #0000 1px), linear-gradient(0deg, #0003 1px, #0000 1px);
+  background-size: calc(100%/2) calc(100%/2);
+}
+.word-screen{
+  background-image: linear-gradient(90deg, #0003 1px, #0000 1px), linear-gradient(0deg, #0003 1px, #0000 1px);
+  background-size: 95% 95%;
+  background-position: center;
+}
+.calendar-screen{
+  background-image: linear-gradient(90deg, #0003 1px, #0000 1px), linear-gradient(0deg, #0003 1px, #0000 1px);
+  background-size: 88% calc(93%);
+  background-position: left bottom;
+}
+.calendar-screen::after{
+  content: var(--date);
+  position: absolute;
+  right: 13%;
+  top: 2%;
+  font-size: 40px;
+  color: #00000036;
+}
+.dots-screen{
+  background-image: linear-gradient(50deg, #000 1px, #0000 1px), linear-gradient(-50deg, #000 1px, #0000 1px);
+  background-size: 30px 30px;
+}
+
+/* SVG ICONS backgrounds */
+.trash{
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3C!--%20Generator%3A%20Adobe%20Illustrator%2019.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200)%20%20--%3E%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Capa_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%2059%2059%22%20style%3D%22enable-background%3Anew%200%200%2059%2059%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cg%3E%0A%09%3Cpath%20d%3D%22M52.5%2C6H38.456c-0.11-1.25-0.495-3.358-1.813-4.711C35.809%2C0.434%2C34.751%2C0%2C33.499%2C0H23.5c-1.252%2C0-2.31%2C0.434-3.144%2C1.289%0A%09%09C19.038%2C2.642%2C18.653%2C4.75%2C18.543%2C6H6.5c-0.552%2C0-1%2C0.447-1%2C1s0.448%2C1%2C1%2C1h46c0.552%2C0%2C1-0.447%2C1-1S53.052%2C6%2C52.5%2C6z%20M21.792%2C2.681%0A%09%09C22.24%2C2.223%2C22.799%2C2%2C23.5%2C2h9.999c0.701%2C0%2C1.26%2C0.223%2C1.708%2C0.681c0.805%2C0.823%2C1.128%2C2.271%2C1.24%2C3.319H20.553%0A%09%09C20.665%2C4.952%2C20.988%2C3.504%2C21.792%2C2.681z%22%20stroke%3D%22%2370797e%22%20fill%3D%22%2370797e%22%2F%3E%0A%09%3Cpath%20d%3D%22M10.456%2C54.021C10.493%2C55.743%2C11.565%2C59%2C15.364%2C59h28.272c3.799%2C0%2C4.871-3.257%2C4.907-4.958L50.376%2C10H8.624L10.456%2C54.021z%0A%09%09%20M48.291%2C12l-1.747%2C41.979C46.538%2C54.288%2C46.4%2C57%2C43.636%2C57H15.364c-2.734%2C0-2.898-2.717-2.909-3.042L10.709%2C12H48.291z%22%20%20stroke%3D%22%2370797e%22%20fill%3D%22%2370797e%22%20%2F%3E%0A%09%3Cpath%20d%3D%22M17.5%2C54h24c0.552%2C0%2C1-0.447%2C1-1s-0.448-1-1-1h-24c-0.552%2C0-1%2C0.447-1%2C1S16.948%2C54%2C17.5%2C54z%22%20%2F%3E%0A%09%3Cpath%20d%3D%22M17.5%2C49h24c0.552%2C0%2C1-0.447%2C1-1s-0.448-1-1-1h-24c-0.552%2C0-1%2C0.447-1%2C1S16.948%2C49%2C17.5%2C49z%22%20%2F%3E%0A%09%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
+}
+.marker{
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3C!--%20Generator%3A%20Adobe%20Illustrator%2019.1.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200)%20%20--%3E%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Capa_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%20427.93%20427.93%22%20style%3D%22enable-background%3Anew%200%200%20427.93%20427.93%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cg%3E%0A%09%3Cg%20id%3D%22XMLID_17_%22%3E%0A%09%09%3Cg%3E%0A%09%09%09%3Cpath%20style%3D%22fill%3A%230000%22%20d%3D%22M413.93%2C90.694c3.23%2C3.23%2C5%2C7.52%2C5%2C12.08s-1.77%2C8.85-5%2C12.08l-237.9%2C237.9l-95.28-95.29%0A%09%09%09%09l237.89-237.9c6.66-6.66%2C17.5-6.66%2C24.16%2C0L413.93%2C90.694z%22%2F%3E%0A%09%09%09%3Cpath%20fill%3D%22%2370797e%22%20stroke%3D%22%2370797e%22%20d%3D%22M158.62%2C348.064l-16.96%2C16.96c-22.83-5.67-47.05%2C1-63.78%2C17.73l-8.85%2C8.85l-13.56-13.57%0A%09%09%09%09l-13.57-13.57l8.85-8.84c8.52-8.53%2C14.61-19.2%2C17.6-30.87c2.77-10.83%2C2.8-22.15%2C0.13-32.92l16.95-16.96L158.62%2C348.064z%22%2F%3E%0A%09%09%09%3Cpath%20fill%3D%22%2370797e%22%20stroke%3D%22%2370797e%22%20d%3D%22M77.88%2C382.754c16.73-16.73%2C40.95-23.4%2C63.78-17.73l16.96-16.96l-73.19-73.19l-16.95%2C16.96%0A%09%09%09%09c2.67%2C10.77%2C2.64%2C22.09-0.13%2C32.92c-2.99%2C11.67-9.08%2C22.34-17.6%2C30.87l-8.85%2C8.84l13.57%2C13.57l13.56%2C13.57L77.88%2C382.754z%0A%09%09%09%09%20M420.29%2C84.324c4.93%2C4.93%2C7.64%2C11.48%2C7.64%2C18.45s-2.71%2C13.52-7.64%2C18.44l-244.26%2C244.26l-11.04-11.04l-20.68%2C20.68l-2.56-0.75%0A%09%09%09%09c-20.43-5.95-42.46-0.29-57.51%2C14.75l-15.21%2C15.21l-4.59-4.59l-22.62%2C22.62L0%2C402.834l33.76-33.77l-4.59-4.6l15.21-15.21%0A%09%09%09%09c7.39-7.38%2C12.66-16.63%2C15.26-26.73c2.58-10.14%2C2.41-20.78-0.51-30.77l-0.74-2.56l20.68-20.68l-11.05-11.05l244.26-244.26%0A%09%09%09%09c10.17-10.17%2C26.72-10.17%2C36.89%2C0L420.29%2C84.324z%20M418.93%2C102.774c0-4.56-1.77-8.85-5-12.08l-71.13-71.13%0A%09%09%09%09c-6.66-6.66-17.5-6.66-24.16%2C0l-237.89%2C237.9l95.28%2C95.29l237.9-237.9C417.16%2C111.624%2C418.93%2C107.334%2C418.93%2C102.774z%0A%09%09%09%09%20M58.07%2C393.374l-8.97-8.98l-8.97-8.97l-24.68%2C24.69l24.46%2C11.42L58.07%2C393.374z%22%2F%3E%0A%09%09%09%3Cpolygon%20style%3D%22fill%3A%23F97946%3B%22%20points%3D%2249.1%2C384.394%2058.07%2C393.374%2039.91%2C411.534%2015.45%2C400.114%2040.13%2C375.424%20%22%2F%3E%0A%09%09%3C%2Fg%3E%0A%09%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E");
+}
+.pen{
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0A%3C!--%20Generator%3A%20Adobe%20Illustrator%2019.1.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200)%20%20--%3E%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%2064%2064%22%20enable-background%3D%22new%200%200%2064%2064%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cpath%20id%3D%22Auto-Pen_1_%22%20stroke%3D%22%2370797e%22%20fill%3D%22%2370797e%22%20stroke-width%3D%223%22%20d%3D%22M47.8398476%2C13.7096834l2.2842026-3.9970999c0.5194969-0.9087%2C0.7968979-1.9438996%2C0.8027-2.9950995%0A%09l0.006897-1.2359004c0.0078011-1.7157998-0.8066978-3.3275998-2.1581993-4.3348999l-0.4960976-0.3286%0A%09c-1.6485023-0.961-3.6963005-0.9561-5.3409004%2C0.0141l-1.0555992%2C0.6226c-0.9014015%2C0.5331999-1.6514015%2C1.2954-2.1699028%2C2.2045999%0A%09L13.6875515%2C49.2027855c-0.4316998%2C0.7558975-0.6924%2C1.5780983-0.7744999%2C2.4418983l-1.0908003%2C11.3583984l1.5948%2C0.8959999%0A%09l9.0351009-6.7631989c0.6630993-0.4961014%2C1.2099991-1.1152%2C1.6239986-1.8402977l22.7714977-39.849102l2.6094017%2C1.5219002%0A%09L37.4277496%2C38.0221825c-0.2744026%2C0.4794006-0.107399%2C1.0903015%2C0.3721008%2C1.3642006%0A%09c0.1561966%2C0.0894012%2C0.3270988%2C0.1318016%2C0.4950981%2C0.1318016c0.347599%2C0%2C0.6846008-0.1805992%2C0.8690987-0.5039024%0A%09l13.0137024-22.7743988L47.8398476%2C13.7096834z%20M41.4492531%2C4.6510839c0.3475952-0.6084003%2C0.8495941-1.1187003%2C1.4481964-1.4732001%0A%09l1.0575981-0.6235001c0.5137024-0.3027999%2C1.089901-0.4540999%2C1.6660995-0.4540999%0A%09c0.3916016%2C0%2C0.7841034%2C0.0697999%2C1.1562004%2C0.2098999l0.5371017%2C0.2613001%0A%09c1.0038986%2C0.6058998%2C1.6231003%2C1.7123997%2C1.6191978%2C2.8988998l-0.006897%2C1.2363%0A%09c-0.0039024%2C0.7070999-0.190403%2C1.4029002-0.5390015%2C2.0132003l-2.2753983%2C3.9819002l-6.7198029-3.9194002%0A%09C39.3117485%2C8.7354841%2C41.4492531%2C4.6510839%2C41.4492531%2C4.6510839z%20M22.3398514%2C54.3033829%0A%09c-0.2772999%2C0.4858017-0.6425991%2C0.8999023-1.0849991%2C1.230999l-7.2255011%2C5.4082031l0.8740005-9.107502%0A%09c0.0546999-0.5727005%2C0.2343998-1.1395988%2C0.5205002-1.6405983l22.7728996-39.8520012%0A%09c0.0593987%2C0.059%2C6.9230995%2C4.0962%2C6.9230995%2C4.0962L22.3398514%2C54.3033829z%22%2F%3E%0A%3Cg%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
+}
+.stamper{
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3C!--%20Generator%3A%20Adobe%20Illustrator%2017.1.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200)%20%20--%3E%0A%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Capa_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%20178.905%20178.905%22%20style%3D%22enable-background%3Anew%200%200%20178.905%20178.905%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cpath%20stroke%3D%22%2370797e%22%20fill%3D%22%2370797e%22%20d%3D%22M160.389%2C178.905H18.516c-1.381%2C0-2.5-1.119-2.5-2.5v-7.645H10.6c-1.381%2C0-2.5-1.119-2.5-2.5v-25.628%0A%09c0-1.381%2C1.119-2.5%2C2.5-2.5h1.592c0.221-2.584%2C1.083-6.524%2C4.044-9.813c3.353-3.725%2C8.422-5.613%2C15.067-5.613%0A%09c16.925%2C0%2C43.776-11.664%2C43.776-42.964c0-16.663-9.949-36.425-10.05-36.623c-0.031-0.062-0.06-0.123-0.085-0.187%0A%09c-2.599-4.396-3.971-9.385-3.971-14.454C60.973%2C12.775%2C73.749%2C0%2C89.452%2C0c15.704%2C0%2C28.479%2C12.775%2C28.479%2C28.479%0A%09c0%2C5.072-1.373%2C10.063-3.974%2C14.459c-0.025%2C0.062-0.053%2C0.122-0.083%2C0.182c-0.101%2C0.197-10.05%2C19.986-10.05%2C36.623%0A%09c0%2C31.3%2C26.852%2C42.964%2C43.776%2C42.964c6.645%2C0%2C11.714%2C1.889%2C15.066%2C5.613c2.961%2C3.288%2C3.823%2C7.228%2C4.044%2C9.813h1.593%0A%09c1.381%2C0%2C2.5%2C1.119%2C2.5%2C2.5v25.628c0%2C1.381-1.119%2C2.5-2.5%2C2.5h-5.416v7.645C162.889%2C177.786%2C161.77%2C178.905%2C160.389%2C178.905z%0A%09%20M21.016%2C173.905h136.873v-3.81H21.016V173.905z%20M13.1%2C163.761h152.705v-20.628H13.1V163.761z%20M17.218%2C138.133h144.469%0A%09c-0.21-1.817-0.862-4.408-2.767-6.503c-2.366-2.603-6.175-3.923-11.318-3.923c-10.921%2C0-22.71-4.146-31.534-11.089%0A%09c-7.866-6.189-17.242-17.611-17.242-36.875c0-16.774%2C8.975-35.617%2C10.413-38.53c0.059-0.184%2C0.14-0.362%2C0.242-0.53%0A%09c2.258-3.696%2C3.451-7.916%2C3.451-12.203C112.932%2C15.533%2C102.399%2C5%2C89.452%2C5C76.506%2C5%2C65.973%2C15.533%2C65.973%2C28.479%0A%09c0%2C4.286%2C1.193%2C8.506%2C3.451%2C12.203c0.106%2C0.173%2C0.189%2C0.356%2C0.249%2C0.546c1.462%2C2.962%2C10.406%2C21.769%2C10.406%2C38.515%0A%09c0%2C19.264-9.376%2C30.686-17.242%2C36.875c-8.824%2C6.943-20.613%2C11.089-31.534%2C11.089c-5.144%2C0-8.952%2C1.32-11.319%2C3.923%0A%09C18.08%2C133.725%2C17.428%2C136.315%2C17.218%2C138.133z%22%2F%3E%0A%3Cg%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A%0A");
+}
+.eraser{
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3C!--%20Generator%3A%20Adobe%20Illustrator%2019.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200)%20%20--%3E%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%20297%20297%22%20style%3D%22enable-background%3Anew%200%200%20297%20297%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cg%3E%0A%09%3Cg%20id%3D%22XMLID_29_%22%3E%0A%09%09%3Cg%3E%0A%09%09%09%0A%09%09%09%3Cpath%20style%3D%22fill%3A%230000%22%20d%3D%22M283.905%2C86.47l-128.62%2C128.62l-74.33-74.33l128.62-128.62L283.905%2C86.47z%20M226.705%2C76.45%0A%09%09%09%09c1.97-1.96%2C1.97-5.15%2C0-7.11c-1.96-1.97-5.15-1.97-7.11%2C0l-67.87%2C67.86c-1.96%2C1.97-1.96%2C5.15%2C0%2C7.12%0A%09%09%09%09c0.98%2C0.98%2C2.27%2C1.47%2C3.56%2C1.47s2.57-0.49%2C3.56-1.47L226.705%2C76.45z%20M213.135%2C62.88c1.96-1.97%2C1.96-5.15%2C0-7.11%0A%09%09%09%09c-1.96-1.97-5.15-1.97-7.11%2C0l-40.72%2C40.71c-1.97%2C1.97-1.97%2C5.15%2C0%2C7.12c0.98%2C0.98%2C2.27%2C1.47%2C3.55%2C1.47%0A%09%09%09%09c1.29%2C0%2C2.58-0.49%2C3.56-1.47L213.135%2C62.88z%22%2F%3E%0A%09%09%09%3Cpath%20%20fill%3D%22%2370797e%22%20%20d%3D%22M294.575%2C82.91c1.96%2C1.97%2C1.96%2C5.15%2C0%2C7.11l-203.6%2C203.6c-0.94%2C0.94-2.22%2C1.47-3.56%2C1.47c-1.33%2C0-2.61-0.53-3.55-1.47%0A%09%09%09%09l-81.44-81.44c-1.96-1.96-1.96-5.15%2C0-7.11l203.6-203.6c1.96-1.96%2C5.15-1.96%2C7.11%2C0L294.575%2C82.91z%20M155.285%2C215.09%0A%09%09%09%09l128.62-128.62l-74.33-74.33L80.955%2C140.76L155.285%2C215.09z%20M87.415%2C282.95l60.76-60.75l-74.33-74.33l-60.75%2C60.75L87.415%2C282.95%0A%09%09%09%09z%22%2F%3E%0A%09%09%09%3Cpath%20%20fill%3D%22%2370797e%22%20d%3D%22M226.705%2C69.34c1.97%2C1.96%2C1.97%2C5.15%2C0%2C7.11l-67.86%2C67.87c-0.99%2C0.98-2.27%2C1.47-3.56%2C1.47s-2.58-0.49-3.56-1.47%0A%09%09%09%09c-1.96-1.97-1.96-5.15%2C0-7.12l67.87-67.86C221.555%2C67.37%2C224.745%2C67.37%2C226.705%2C69.34z%22%2F%3E%0A%09%09%09%3Cpath%20fill%3D%22%2370797e%22%20d%3D%22M213.135%2C55.77c1.96%2C1.96%2C1.96%2C5.14%2C0%2C7.11l-40.72%2C40.72c-0.98%2C0.98-2.27%2C1.47-3.56%2C1.47c-1.28%2C0-2.57-0.49-3.55-1.47%0A%09%09%09%09c-1.97-1.97-1.97-5.15%2C0-7.12l40.72-40.71C207.985%2C53.8%2C211.175%2C53.8%2C213.135%2C55.77z%22%2F%3E%0A%0A%3Cpolygon%20style%3D%22fill%3A%2370797e%22%20points%3D%22148.175%2C222.2%2087.415%2C282.95%2013.095%2C208.62%2073.845%2C147.87%20%09%09%09%22%2F%3E%0A%09%09%09%0A%09%09%3C%2Fg%3E%0A%09%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
+}
+.marker{
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3C!--%20Generator%3A%20Adobe%20Illustrator%2019.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200)%20%20--%3E%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cpolygon%20style%3D%22fill%3A%23B3B3B3%3B%22%20points%3D%22328.953%2C323.005%20328.953%2C393.236%20246.154%2C404.081%20183.047%2C393.236%20183.047%2C323.005%20%22%2F%3E%0A%3Cpolygon%20style%3D%22fill%3Asilver%22%20points%3D%22278.864%2C451.028%20278.864%2C494.583%20233.136%2C512%20233.136%2C451.028%20%22%2F%3E%0A%3Cpath%20style%3D%22fill%3A%23CCCCCC%3B%22%20d%3D%22M183.047%2C393.236h145.907c-20.445%2C0-37.02%2C16.575-37.02%2C37.02v28.312h-13.069h-45.729h-13.069%0A%09v-28.312c0-10.229-4.147-19.478-10.845-26.176C202.524%2C397.383%2C193.275%2C393.236%2C183.047%2C393.236z%22%2F%3E%0A%3Cpath%20style%3D%22fill%3A%23B3B3B3%3B%22%20d%3D%22M246.154%2C404.081c1.407%2C6.698%2C2.274%2C15.947%2C2.274%2C26.176v28.312h-28.362v-28.312%0A%09c0-10.229-4.147-19.478-10.845-26.176c-6.698-6.698-15.947-10.845-26.176-10.845h57.591%0A%09C242.799%2C393.236%2C244.734%2C397.383%2C246.154%2C404.081z%22%2F%3E%0A%3Crect%20x%3D%22183.04%22%20y%3D%22347.508%22%20style%3D%22fill%3A%23999999%3B%22%20width%3D%2243.545%22%20height%3D%2245.729%22%2F%3E%0A%3Cpath%20style%3D%22fill%3A%2370797e%22%20d%3D%22M342.022%2C29.455v318.052h-13.069H183.047h-13.069V29.455C169.978%2C13.195%2C183.172%2C0%2C199.433%2C0h113.134%0A%09C328.84%2C0%2C342.022%2C13.195%2C342.022%2C29.455z%22%2F%3E%0A%3Cpath%20style%3D%22fill%3A%23444%22%20d%3D%22M233.361%2C0h-33.928c-16.261%2C0-29.455%2C13.195-29.455%2C29.455v318.052h13.069h20.859V29.455%0A%09C203.905%2C13.195%2C217.1%2C0%2C233.361%2C0z%22%2F%3E%0A%3Cg%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E");
+}
+.save{
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3C!--%20Generator%3A%20Adobe%20Illustrator%2019.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200)%20%20--%3E%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Capa_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%2049%2049%22%20style%3D%22enable-background%3Anew%200%200%2049%2049%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cg%3E%0A%09%3Crect%20fill%3D%22%2370797e%22%20x%3D%2227.5%22%20y%3D%225%22%20width%3D%226%22%20height%3D%2210%22%2F%3E%0A%09%3Cpath%20fill%3D%22%2370797e%22%20d%3D%22M39.914%2C0H0.5v49h48V8.586L39.914%2C0z%20M10.5%2C2h26v16h-26V2z%20M39.5%2C47h-31V26h31V47z%22%2F%3E%0A%09%3Cpath%20fill%3D%22%2370797e%22%20d%3D%22M13.5%2C32h7c0.553%2C0%2C1-0.447%2C1-1s-0.447-1-1-1h-7c-0.553%2C0-1%2C0.447-1%2C1S12.947%2C32%2C13.5%2C32z%22%2F%3E%0A%09%3Cpath%20fill%3D%22%2370797e%22%20d%3D%22M13.5%2C36h10c0.553%2C0%2C1-0.447%2C1-1s-0.447-1-1-1h-10c-0.553%2C0-1%2C0.447-1%2C1S12.947%2C36%2C13.5%2C36z%22%2F%3E%0A%09%3Cpath%20fill%3D%22%2370797e%22%20d%3D%22M26.5%2C36c0.27%2C0%2C0.52-0.11%2C0.71-0.29c0.18-0.19%2C0.29-0.45%2C0.29-0.71s-0.11-0.521-0.29-0.71c-0.37-0.37-1.04-0.37-1.41%2C0%0A%09%09c-0.19%2C0.189-0.3%2C0.439-0.3%2C0.71c0%2C0.27%2C0.109%2C0.52%2C0.29%2C0.71C25.979%2C35.89%2C26.229%2C36%2C26.5%2C36z%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
+}
+.color{
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3C!--%20Generator%3A%20Adobe%20Illustrator%2016.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200)%20%20--%3E%0A%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Capa_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20width%3D%2229.73px%22%20height%3D%2229.73px%22%20viewBox%3D%220%200%2029.73%2029.73%22%20style%3D%22enable-background%3Anew%200%200%2029.73%2029.73%3B%22%20xml%3Aspace%3D%22preserve%22%0A%09%3E%0A%3Cg%3E%0A%09%3Cpath%20fill%3D%22%2370797e%22%20d%3D%22M14.865%2C0C6.655%2C0%2C0%2C6.655%2C0%2C14.865c0%2C1.714%2C0.201%2C2.83%2C0.767%2C4.546c1.104%2C3.188%2C6.896-2.808%2C9.388%2C0.729%0A%09%09c2.492%2C3.535-5.62%2C6.64-0.18%2C8.764c2.475%2C0.601%2C3.175%2C0.826%2C4.89%2C0.826c8.21%2C0%2C14.865-6.654%2C14.865-14.864%0A%09%09C29.73%2C6.655%2C23.075%2C0%2C14.865%2C0z%20M22.077%2C4.955c1.694%2C0%2C3.069%2C1.17%2C3.069%2C2.614c0%2C1.442-1.375%2C2.613-3.069%2C2.613%0A%09%09c-1.695%2C0-3.07-1.171-3.07-2.613C19.007%2C6.125%2C20.381%2C4.955%2C22.077%2C4.955z%20M4.74%2C15.802c-1.695%2C0-3.069-1.171-3.069-2.614%0A%09%09s1.375-2.614%2C3.069-2.614c1.696%2C0%2C3.071%2C1.171%2C3.071%2C2.614S6.437%2C15.802%2C4.74%2C15.802z%20M8.335%2C9.784c-1.695%2C0-3.07-1.17-3.07-2.614%0A%09%09c0-1.444%2C1.375-2.614%2C3.07-2.614s3.07%2C1.17%2C3.07%2C2.614C11.405%2C8.614%2C10.03%2C9.784%2C8.335%2C9.784z%20M12.078%2C4.189%0A%09%09c0-1.443%2C1.374-2.615%2C3.07-2.615c1.694%2C0%2C3.068%2C1.172%2C3.068%2C2.615s-1.375%2C2.614-3.068%2C2.614%0A%09%09C13.452%2C6.803%2C12.078%2C5.632%2C12.078%2C4.189z%20M17.341%2C27.627c-1.696%2C0-3.069-1.17-3.069-2.613s1.375-2.613%2C3.069-2.613%0A%09%09c1.695%2C0%2C3.07%2C1.17%2C3.07%2C2.613S19.036%2C27.627%2C17.341%2C27.627z%20M23.48%2C23.155c-1.695%2C0-3.069-1.173-3.069-2.614%0A%09%09c0-1.443%2C1.374-2.614%2C3.069-2.614c1.694%2C0%2C3.069%2C1.171%2C3.069%2C2.614C26.55%2C21.982%2C25.176%2C23.155%2C23.48%2C23.155z%20M25.146%2C16.604%0A%09%09c-1.695%2C0-3.07-1.17-3.07-2.614s1.375-2.614%2C3.07-2.614s3.07%2C1.17%2C3.07%2C2.614S26.843%2C16.604%2C25.146%2C16.604z%22%2F%3E%0A%3C%2Fg%3E%0A%0A%3C%2Fsvg%3E%0A");
+}
+.color-detect{
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0A%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Icons%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%2032%2032%22%20style%3D%22enable-background%3Anew%200%200%2032%2032%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cpath%20fill%3D%22%2370797e%22%20d%3D%22M27.7%2C3.3c-1.5-1.5-3.9-1.5-5.4%2C0L17%2C8.6l-1.3-1.3c-0.4-0.4-1-0.4-1.4%2C0s-0.4%2C1%2C0%2C1.4l1.3%2C1.3L5%2C20.6%0A%09c-0.6%2C0.6-1%2C1.4-1.1%2C2.3C3.3%2C23.4%2C3%2C24.2%2C3%2C25c0%2C1.7%2C1.3%2C3%2C3%2C3c0.8%2C0%2C1.6-0.3%2C2.2-0.9C9%2C27%2C9.8%2C26.6%2C10.4%2C26L21%2C15.4l1.3%2C1.3%0A%09c0.2%2C0.2%2C0.5%2C0.3%2C0.7%2C0.3s0.5-0.1%2C0.7-0.3c0.4-0.4%2C0.4-1%2C0-1.4L22.4%2C14l5.3-5.3C29.2%2C7.2%2C29.2%2C4.8%2C27.7%2C3.3z%20M9%2C24.6%0A%09c-0.4%2C0.4-0.8%2C0.6-1.3%2C0.5c-0.4%2C0-0.7%2C0.2-0.9%2C0.5C6.7%2C25.8%2C6.3%2C26%2C6%2C26c-0.6%2C0-1-0.4-1-1c0-0.3%2C0.2-0.7%2C0.5-0.8%0A%09c0.3-0.2%2C0.5-0.5%2C0.5-0.9c0-0.5%2C0.2-1%2C0.5-1.3L17%2C11.4l2.6%2C2.6L9%2C24.6z%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+.pencil{
+  background-image: url("data:image/svg+xml,%3Csvg%20width%3D%22512px%22%20height%3D%22512px%22%20viewBox%3D%220%200%20512%20512%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ctitle%3Eionicons-v5-k%3C%2Ftitle%3E%3Cpolygon%20points%3D%22364.13%20125.25%2087%20403%2064%20448%20108.99%20425%20386.75%20147.87%20364.13%20125.25%22%20style%3D%22fill%3Anone%3Bstroke%3A%2370797e%3Bstroke-linecap%3Around%3Bstroke-linejoin%3Amiter%3Bstroke-width%3A45px%22%2F%3E%3Cpath%20d%3D%22M420.69%2C68.69%2C398.07%2C91.31l22.62%2C22.63%2C22.62-22.63a16%2C16%2C0%2C0%2C0%2C0-22.62h0A16%2C16%2C0%2C0%2C0%2C420.69%2C68.69Z%22%20style%3D%22fill%3Anone%3Bstroke%3A%23404649%3Bstroke-linecap%3Around%3Bstroke-linejoin%3Around%3Bstroke-width%3A38px%22%2F%3E%3C%2Fsvg%3E");
+  transform: rotate(-11deg);
+  font-size: 17px;
+  /* background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3C!--%20Generator%3A%20Adobe%20Illustrator%2017.1.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200)%20%20--%3E%0A%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Capa_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%20496.68%20496.68%22%20style%3D%22enable-background%3Anew%200%200%20496.68%20496.68%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cg%3E%0A%09%3Cpath%20fill%3D%22%2370797e%22%20d%3D%22M485.13%2C22.85l-11.314-11.313c-7.435-7.436-17.354-11.531-27.931-11.531c-10.576%2C0-20.495%2C4.095-27.93%2C11.531%0A%09%09l-22.627%2C22.627L58.759%2C370.733c-0.013%2C0.013-0.023%2C0.027-0.036%2C0.04c-0.107%2C0.109-0.208%2C0.225-0.309%2C0.341%0A%09%09c-0.063%2C0.073-0.129%2C0.143-0.189%2C0.218c-0.083%2C0.104-0.16%2C0.213-0.239%2C0.322c-0.069%2C0.096-0.141%2C0.191-0.205%2C0.29%0A%09%09c-0.062%2C0.095-0.118%2C0.195-0.176%2C0.294c-0.071%2C0.12-0.141%2C0.24-0.205%2C0.363c-0.014%2C0.028-0.032%2C0.053-0.046%2C0.081L0.786%2C485.819%0A%09%09c-0.023%2C0.046-0.04%2C0.094-0.062%2C0.141c-0.059%2C0.125-0.114%2C0.252-0.167%2C0.38c-0.045%2C0.109-0.088%2C0.218-0.127%2C0.327%0A%09%09c-0.04%2C0.113-0.076%2C0.227-0.11%2C0.342c-0.038%2C0.125-0.075%2C0.25-0.106%2C0.376c-0.026%2C0.104-0.047%2C0.21-0.068%2C0.315%0A%09%09c-0.027%2C0.134-0.053%2C0.268-0.073%2C0.402c-0.016%2C0.107-0.026%2C0.214-0.036%2C0.322c-0.013%2C0.131-0.026%2C0.262-0.032%2C0.392%0A%09%09C-0.001%2C488.935%2C0%2C489.054%2C0%2C489.173c0%2C0.119-0.001%2C0.238%2C0.005%2C0.357c0.006%2C0.131%2C0.019%2C0.262%2C0.032%2C0.392%0A%09%09c0.011%2C0.108%2C0.021%2C0.215%2C0.036%2C0.322c0.019%2C0.135%2C0.046%2C0.268%2C0.073%2C0.402c0.021%2C0.106%2C0.042%2C0.211%2C0.068%2C0.315%0A%09%09c0.031%2C0.126%2C0.068%2C0.251%2C0.106%2C0.376c0.035%2C0.115%2C0.07%2C0.229%2C0.11%2C0.342c0.039%2C0.11%2C0.082%2C0.219%2C0.127%2C0.327%0A%09%09c0.052%2C0.128%2C0.107%2C0.255%2C0.167%2C0.38c0.022%2C0.047%2C0.039%2C0.094%2C0.062%2C0.141c0.017%2C0.034%2C0.04%2C0.064%2C0.058%2C0.098%0A%09%09c0.148%2C0.285%2C0.307%2C0.564%2C0.491%2C0.829c0.002%2C0.002%2C0.003%2C0.005%2C0.005%2C0.008c0.179%2C0.258%2C0.38%2C0.5%2C0.592%2C0.735%0A%09%09c0.056%2C0.063%2C0.114%2C0.123%2C0.173%2C0.183c0.174%2C0.18%2C0.358%2C0.352%2C0.552%2C0.516c0.05%2C0.042%2C0.097%2C0.088%2C0.148%2C0.129%0A%09%09c0.234%2C0.187%2C0.481%2C0.36%2C0.741%2C0.521c0.073%2C0.045%2C0.149%2C0.084%2C0.224%2C0.126c0.123%2C0.07%2C0.242%2C0.145%2C0.37%2C0.209%0A%09%09c0.068%2C0.034%2C0.139%2C0.057%2C0.208%2C0.089c0.118%2C0.054%2C0.236%2C0.104%2C0.356%2C0.153c0.192%2C0.077%2C0.385%2C0.145%2C0.58%2C0.205%0A%09%09c0.106%2C0.033%2C0.21%2C0.066%2C0.317%2C0.094c0.228%2C0.06%2C0.457%2C0.105%2C0.687%2C0.143c0.083%2C0.014%2C0.165%2C0.032%2C0.249%2C0.043%0A%09%09c0.317%2C0.041%2C0.635%2C0.066%2C0.951%2C0.066c0.002%2C0%2C0.004%2C0%2C0.006%2C0s0.004%2C0%2C0.006%2C0c0.316%2C0%2C0.634-0.025%2C0.951-0.066%0A%09%09c0.083-0.011%2C0.165-0.029%2C0.248-0.043c0.231-0.038%2C0.46-0.083%2C0.689-0.143c0.106-0.028%2C0.209-0.061%2C0.314-0.093%0A%09%09c0.196-0.061%2C0.391-0.129%2C0.585-0.207c0.118-0.047%2C0.235-0.097%2C0.351-0.15c0.07-0.032%2C0.142-0.056%2C0.211-0.091l113.137-56.568%0A%09%09c0.028-0.014%2C0.053-0.031%2C0.081-0.046c0.122-0.063%2C0.241-0.133%2C0.36-0.203c0.1-0.059%2C0.202-0.116%2C0.299-0.179%0A%09%09c0.096-0.062%2C0.187-0.131%2C0.28-0.198c0.113-0.081%2C0.227-0.161%2C0.334-0.247c0.069-0.056%2C0.134-0.116%2C0.201-0.175%0A%09%09c0.122-0.106%2C0.244-0.212%2C0.359-0.325c0.011-0.011%2C0.024-0.021%2C0.035-0.032l336.568-336.569l22.627-22.627%0A%09%09C500.531%2C63.311%2C500.531%2C38.252%2C485.13%2C22.85z%20M107.97%2C430.55l-38.656%2C19.328l-22.525-22.525l19.328-38.656L107.97%2C430.55z%0A%09%09%20M39.718%2C441.494l15.454%2C15.455l-30.909%2C15.454L39.718%2C441.494z%20M120.631%2C421.998l-17.696-17.696%0A%09%09c0.125-0.11%2C0.252-0.217%2C0.372-0.336l14.059-14.059c2.929-2.929%2C2.929-7.678%2C0-10.606c-2.929-2.929-7.678-2.929-10.606%2C0%0A%09%09L92.7%2C393.36c-0.119%2C0.119-0.226%2C0.246-0.336%2C0.372l-17.696-17.696L400.631%2C50.074l17.678%2C17.678l-271.55%2C271.55%0A%09%09c-2.929%2C2.929-2.929%2C7.678%2C0%2C10.606c1.464%2C1.464%2C3.384%2C2.197%2C5.303%2C2.197s3.839-0.732%2C5.303-2.197l271.55-271.55l17.678%2C17.678%0A%09%09L120.631%2C421.998z%20M474.523%2C68.105l-17.324%2C17.324l-45.962-45.962l17.324-17.324c4.603-4.603%2C10.755-7.137%2C17.324-7.137%0A%09%09c6.569%2C0%2C12.722%2C2.535%2C17.324%2C7.137l11.314%2C11.313C484.076%2C43.009%2C484.076%2C58.553%2C474.523%2C68.105z%22%2F%3E%0A%09%3Cpath%20fill%3D%22silver%22%20d%3D%22M453.365%2C27.301c-2.929-2.929-7.678-2.929-10.606%2C0c-2.929%2C2.929-2.929%2C7.678%2C0%2C10.606l16%2C16%0A%09%09c1.464%2C1.464%2C3.384%2C2.197%2C5.303%2C2.197s3.839-0.732%2C5.303-2.197c2.929-2.929%2C2.929-7.678%2C0-10.606L453.365%2C27.301z%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E"); */
+}
+.crayon{
+  background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2236px%22%20height%3D%2236px%22%20viewBox%3D%220%200%2036%2036%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20aria-hidden%3D%22true%22%20role%3D%22img%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%0A%0A%3Cpath%20fill%3D%22%23565b62%22%20d%3D%22M35.702%207.477L28.522.298a1.015%201.015%200%200%200-1.436%200L3.395%2023.989a1.016%201.016%200%200%200%200%201.437c.72.719-3.14%207.959-3.395%208.496L2.068%2036c.536-.255%207.785-4.115%208.506-3.395a1.015%201.015%200%200%200%201.436%200L35.702%208.913a1.015%201.015%200%200%200%200-1.436z%22%3E%0A%3C%2Fpath%3E%0A%3Cpath%20fill%3D%22%23d5d9e0%22%20d%3D%22M4.139%2023.24L26.407.972l8.62%208.62L12.759%2031.86z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23292F33%22%20d%3D%22M23.534%203.846l1.437-1.436l8.62%208.62l-1.437%201.436zM5.576%2021.803l1.436-1.437l8.62%208.62l-1.437%201.437z%22%3E%3C%2Fpath%3E%0A%0A%3Cpath%20fill%3D%22%23a3a8b2%22%20d%3D%22M26.886%209.353c-1.521-1.521-5.982.476-9.967%204.459c-3.983%203.984-5.979%208.446-4.459%209.967c1.52%201.521%205.983-.476%209.967-4.459c3.983-3.984%205.979-8.447%204.459-9.967z%22%3E%3C%2Fpath%3E%0A%3C%2Fsvg%3E");
+}
