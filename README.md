@@ -36,7 +36,7 @@ Paper program is intended to enable user to quickly create online sketches, expo
   ♺     : Recycle design,
   ?     : Help,
   point-control : ・・・・・・<span class="large">●</span>・・        (0-max) = stroke, max = fill shape,
-  <span style='color:var(--bluish)'>.</span> : Data inside...,
+  .     : Data inside...,
   Keyboard : 
             KEYBOARD shortcuts
             ________________________________
