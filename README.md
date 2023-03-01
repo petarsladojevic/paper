@@ -1,6 +1,6 @@
 # paper
 Paper program is intended to enable user to quickly create online sketches, export ready. 
-
+<pre>
   About :  Hello stranger, my name is PAPER. I've been created, to make notes, by drawing, fast, versatile and easy,
   ⏻     :  Power,
   +     :  Upload image file,
@@ -12,9 +12,7 @@ Paper program is intended to enable user to quickly create online sketches, expo
   m     :  Marker is fixed size and lighter color shade,
   c     :  Crayon add's light shades,
   🆃    :  Uploaded text can be put onto paper, select box from where and width to wrap around,
-  ⛶     :  
-<pre>
-Select box creates selection of paper:
+  ⛶    :  Select box creates selection of paper:
 
 Select box commands after selection:
 ⌫     : Delete
