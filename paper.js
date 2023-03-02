@@ -143,7 +143,10 @@ const $$ = {
               $$.vars.DUMMY = IMAGE; //DUMMY
     },
     readGallery : async function(){
-              fetch('./GALLERY/').then( x=> x.text() ).then(xx=>{
+              let first_try = fetch('./GALLERY/').then( x=> (x.ok) ? x.text() : false).then( xx=> action(xx) );
+              let second_try = fetch('./GALLERY/list.js').then( x=> (x.ok) ? x.text() : false).then( xx=> action(xx) );
+
+               const action = (xx)=>{
                     const parser = new DOMParser();
                     const docu = parser.parseFromString(xx, 'text/html');
                     let lis = docu.querySelectorAll('li');
@@ -172,7 +175,7 @@ const $$ = {
                            view.appendChild(div);
                        }
                        $$.vars.FILES['gallery'] = arr; //SAVE NAMES
-              });
+              }
               // let arr = $$.vars.RESPONSE.split(`\n`).filter( x=> (x != '') );
     },
     //READ UPLOADED FILE
