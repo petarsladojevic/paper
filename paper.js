@@ -143,7 +143,7 @@ const $$ = {
               $$.vars.DUMMY = IMAGE; //DUMMY
     },
     readGallery : async function(){
-              let first_try = fetch('./GALLERY/').then( x=> (x.ok) ? x.text() : false).then( xx=> action(xx) );
+              //let first_try = fetch('./GALLERY/').then( x=> (x.ok) ? x.text() : false).then( xx=> action(xx) );
               let second_try = fetch('./GALLERY/list.js').then( x=> (x.ok) ? x.text() : false).then( xx=> action(xx) );
 
                const action = (xx)=>{
