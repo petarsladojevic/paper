@@ -143,14 +143,9 @@ const $$ = {
               $$.vars.DUMMY = IMAGE; //DUMMY
     },
     readGallery : async function(){
-              //let first_try = fetch('./GALLERY/').then( x=> (x.ok) ? x.text() : false).then( xx=> action(xx) );
-              let second_try = fetch('./GALLERY/list.js').then( x=> (x.ok) ? x.text() : false).then( xx=> action(xx) );
-
+               fetch('./GALLERY/list.js').then( x=> (x.ok) ? x.json() : false).then( xx=> action(xx) );
                const action = (xx)=>{
-                    const parser = new DOMParser();
-                    const docu = parser.parseFromString(xx, 'text/html');
-                    let lis = docu.querySelectorAll('li');
-                    let arr = Array.from(lis).map( x=> (x.innerText.search(/\.[png|jpg|jpeg|ico]/g) > -1 ) ? x.innerText.trim() : '');
+                    let arr = Object.values(xx);
                     let view = qu('.gallery-view');
                         view.innerHTML = '';
                        for(let i = 0;i< arr.length;i++){
