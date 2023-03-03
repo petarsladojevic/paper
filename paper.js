@@ -39,7 +39,7 @@ const $$ = {
      uploaded_TEXT : ``, //uploaded file text instead of image
      STT : ``,  //smart_text text
      COLOR_DETECTOR : false,
-     RESPONSE : null,   //NOT USED, this is for SERVER VERSION
+     RESPONSE : null,
      color : '#000000',
      type : 'pen',
      DRAWING : false,
@@ -208,20 +208,20 @@ const $$ = {
                      if(file.type.search('image/') > -1)      reader.readAsDataURL(file);
                      else if(file.type.search('text/') > -1)  reader.readAsText(file);
                });
-     },
-     generateFileName : function(){
+    },
+    generateFileName : function(){
              let ln  = $$.vars.FILES.loaded.name;
              let arr = $$.vars.FILES.gallery;
              if(arr.includes(ln)) return ln;
              else                 return $$.randomName();
-     },
-     randomName : function(){
+    },
+    randomName : function(){
              let date = new Date();
              let time = date.toLocaleTimeString().split(':').join('_');
              let day = date.toDateString().split(' ').join('_');
              return 'paper_' + day+'_'+ time + '.png';
-     },
-     deleteMode : function(state){
+    },
+    deleteMode : function(state){
            let gall = qu('.gallery-view');
            let children = gall.children;
 
@@ -235,8 +235,7 @@ const $$ = {
                         e.stopPropagation(); //DO NOT AFFECT PARENT
                         let name = e.target.parentElement.getAttribute('name');
                         if(e.target && name != null) {
-                           qu(`[name="${encodeURIComponent(name)}"]`).remove();   //VISUAL DELETE
-                           // $$.deleteFile( encodeURIComponent(name) ); //if malformed name with whitespaces in it, fix it   SERVER DELETE-NOT USED
+                           $$.deleteFile( encodeURIComponent(name) ); //if malformed name with whitespaces in it, fix it
                            e.target.parentElement.remove();
                          }
                       });
@@ -366,12 +365,14 @@ const $$ = {
                 }
               }
 
-            box.addEventListener('click', e=>{
+            box.addEventListener( $$.vars.gestures[0] , e=>{
                   let clientRect = box.getClientRects();
                   let _cX , _cY; //HOLD tBOARD CORDINATES
+                  let X = $$.mouseOrTouch(e , 'clientX') || $$.mouseOrTouch(e , 'pageX');
+                  let Y = $$.mouseOrTouch(e , 'clientY') || $$.mouseOrTouch(e , 'pageY');
 
-                    _cX = Math.round(e.clientX - clientRect[0].x);
-                    _cY = Math.round(e.clientY - clientRect[0].y);
+                    _cX = Math.round(X - clientRect[0].x);
+                    _cY = Math.round(Y - clientRect[0].y);
 
                   let xc = boxCtx.getImageData(_cX, _cY, 1, 1).data;
                   $$.vars.color = $$.fullHex(...xc);
@@ -384,8 +385,10 @@ const $$ = {
                    const detect = (e)=>{
                          let clientRect = canvas.getClientRects();
                          let _cX=0 , _cY=0, xc=[];
-                             _cX = Math.round(e.clientX - clientRect[0].x);  // clientRect[0].right
-                             _cY = Math.round(e.clientY - clientRect[0].y);  // clientRect[0].top
+                             let X = $$.mouseOrTouch(e , 'clientX') || $$.mouseOrTouch(e , 'pageX');
+                             let Y = $$.mouseOrTouch(e , 'clientY') || $$.mouseOrTouch(e , 'pageY');
+                             _cX = Math.round(X - clientRect[0].x);  // clientRect[0].right
+                             _cY = Math.round(Y - clientRect[0].y);  // clientRect[0].top
 
                          xc = ctx.getImageData(_cX, _cY, 1, 1).data;
                          let detected = $$.fullHex(xc[0], xc[1], xc[2]);
@@ -403,33 +406,33 @@ const $$ = {
               },
     // RESIZE CANVAS TO SPACE AVAILABLE
     resizeToWindow : function(){
-           let ph =  qu('.paper-holder');
-           $$.query.paper.width  = ph.clientWidth;
-           $$.query.paper.height = ph.clientHeight;
+         let ph =  qu('.paper-holder');
+         $$.query.paper.width  = ph.clientWidth;
+         $$.query.paper.height = ph.clientHeight;
     },
     testSame : (A, B)=> (JSON.stringify(A) === JSON.stringify(B)) ? true : false,
     // SAVE IMAGE
     saveCanvasImage : function(e){
-           $$.vars.savedImageData = ctx.getImageData(0,0, canvas.width, canvas.height);
-           $$.vars.drawHistory.push( $$.vars.savedImageData);
-           $$.vars.historyIndex = $$.vars.drawHistory.length-1;
-           //OPTIMIZE HISTORY STORAGE to no more then 15 last versions
-           if($$.vars.drawHistory.length > 15) $$.vars.drawHistory.shift(1);
+         $$.vars.savedImageData = ctx.getImageData(0,0, canvas.width, canvas.height);
+         $$.vars.drawHistory.push( $$.vars.savedImageData);
+         $$.vars.historyIndex = $$.vars.drawHistory.length-1;
+         //OPTIMIZE HISTORY STORAGE to no more then 15 last versions
+         if($$.vars.drawHistory.length > 15) $$.vars.drawHistory.shift(1);
     },
     // REMOVE LAST ITEM FROM ARRAY
     getPreviousVersion : function(redo){
-           let i = $$.vars.historyIndex;
-           (redo ) ? i += 1 : i -= 1;
-           let dhl = $$.vars.drawHistory.length;
-           ( i >= dhl) ? (i = dhl-1) : (i = Math.abs(i));
-           (dhl > 0 && i < dhl && i > -1) ? ctx.putImageData($$.vars.drawHistory[ i ], 0, 0) : '';
-           $$.vars.historyIndex = i;
+         let i = $$.vars.historyIndex;
+         (redo ) ? i += 1 : i -= 1;
+         let dhl = $$.vars.drawHistory.length;
+         ( i >= dhl) ? (i = dhl-1) : (i = Math.abs(i));
+         (dhl > 0 && i < dhl && i > -1) ? ctx.putImageData($$.vars.drawHistory[ i ], 0, 0) : '';
+         $$.vars.historyIndex = i;
     },
     // REDRAW CANVAS   pass exact index or use last image
     redrawCanvasImage : function(index){
-            let lastImage = $$.vars.drawHistory[index || $$.vars.drawHistory.length-1];
-            if(typeof lastImage != 'object') return false; //SAFE
-                ctx.putImageData(lastImage, 0, 0 );
+          let lastImage = $$.vars.drawHistory[index || $$.vars.drawHistory.length-1];
+          if(typeof lastImage != 'object') return false; //SAFE
+              ctx.putImageData(lastImage, 0, 0 );
     },
     // CLEAR CANVAS
     clearCanvas : ()=> ctx.clearRect(0, 0, canvas.width, canvas.height),
@@ -460,8 +463,10 @@ const $$ = {
     followMeTracker : function(e, perType){
         let tra = qu('.tracker'), size = $$.vars.draw_size;
         let trackerApply = (w, h)=>{
-              tra.style.left = e.clientX - w/2 +'px'
-              tra.style.top  = e.clientY - h/2 +'px';
+          let X = $$.mouseOrTouch(e , 'clientX') || $$.mouseOrTouch(e , 'pageX');
+          let Y = $$.mouseOrTouch(e , 'clientY') || $$.mouseOrTouch(e , 'pageY');
+              tra.style.left = X - w/2 +'px'
+              tra.style.top  = Y - h/2 +'px';
               tra.style.width  = w + 'px';
               tra.style.height = h + 'px';
         }
@@ -472,7 +477,9 @@ const $$ = {
           case 'select':
                     let shape = $$.vars.shape, mouse = $$.vars.mouse;
                     let sw = $$.vars.sidebarOffset;
-                    let X = e.clientX, Y = e.clientY;
+                    let X = $$.mouseOrTouch(e , 'clientX') || $$.mouseOrTouch(e , 'pageX');
+                    let Y = $$.mouseOrTouch(e , 'clientY') || $$.mouseOrTouch(e , 'pageY');
+                    // let X = e.clientX, Y = e.clientY;
 
                     shape.width  = Math.abs(mouse.x - X + sw);
                     shape.height = Math.abs(mouse.y - Y);
@@ -546,21 +553,36 @@ const $$ = {
                   qu('[ref="templates"]').nextSibling.getElementsByTagName('pre')[0].appendChild(btn);
              }
     },
+    // DETERMINE SHOULD YOU USE MOUSE OR FINGER(TOUCH)
+    mouseOrTouch : (e, what)=>{
+          if($$.vars.gestures.includes('touchstart')){
+             const touches = e.changedTouches[0];
+                // log(touches);
+                   e.preventDefault();
+             return touches[what] - (touches['radiusX']/2);
+          }else{
+             return e[what];
+         }
+    },
     caliography : function(e, factor){
          //CALIOGRAPHY OPTION
-         const dX = e.offsetX - $$.vars.mouse.x + (Math.random()* 10);
-               dY = e.offsetY - $$.vars.mouse.y + (Math.random()* 10);
+         let X = $$.mouseOrTouch(e , 'offsetX') || $$.mouseOrTouch(e , 'pageX');
+         let Y = $$.mouseOrTouch(e , 'offsetY') || $$.mouseOrTouch(e , 'pageY');
+         const dX = X - $$.vars.mouse.x + (Math.random()* 10);
+               dY = Y - $$.vars.mouse.y + (Math.random()* 10);
          let perpendicular = Math.atan2(dY, dX);
          return (perpendicular) * $$.vars.draw_size * (dX+dY) / 180 * factor; //Manipulate theese to get many different types of caliography
     },
     stylus : {
         start : (color="#000")=> { ctx.beginPath(); ctx.strokeStyle = color; },
         end   : (e)=>{
+                 let X = $$.mouseOrTouch(e , 'offsetX') || $$.mouseOrTouch(e , 'pageX');
+                 let Y = $$.mouseOrTouch(e , 'offsetY') || $$.mouseOrTouch(e , 'pageY');
                  ctx.moveTo($$.vars.mouse.x, $$.vars.mouse.y);
-                 ctx.lineTo(e.offsetX, e.offsetY);
+                 ctx.lineTo( X, Y);
                  ctx.stroke();
-                 $$.vars.mouse.x = e.offsetX;
-                 $$.vars.mouse.y = e.offsetY;
+                 $$.vars.mouse.x = $$.mouseOrTouch(e , 'offsetX') || $$.mouseOrTouch(e , 'pageX');
+                 $$.vars.mouse.y = $$.mouseOrTouch(e , 'offseY') || $$.mouseOrTouch(e , 'pageY');
         }
     },
     grafitePencil : function(e, size, color, cali){
@@ -608,6 +630,8 @@ const $$ = {
           if($$.vars.DRAWING == false) return false; //SAFE
           if($$.vars.COLOR_DETECTOR)   return false;  //TO DETECT COLOR TURN OFF DRAWING
           let size = $$.vars.draw_size, half = size /2, dummy = $$.vars.DUMMY || null;
+          let X = $$.mouseOrTouch(e , 'offsetX') || $$.mouseOrTouch(e , 'pageX');
+          let Y = $$.mouseOrTouch(e , 'offsetY') || $$.mouseOrTouch(e , 'pageY');
 
            switch($$.vars.type){
             case 'pencil':     $$.grafitePencil(e, $$.vars.draw_size, $$.vars.color, true);  break;
@@ -616,25 +640,26 @@ const $$ = {
             case 'crayon' :    $$.pen(e, $$.vars.draw_size, $$.faded(0.1) || '#0000000a' );  break;
             case 'line'  :     $$.stylus.start($$.vars.color); ctx.lineWidth = size;         break;
             case 'eraser':     $$.composition("destination-out");  $$.pen(e, $$.vars.draw_size, $$.vars.color, true);    break;                //ctx.clearRect(e.offsetX - half, e.offsetY -half, size, size); break;
-            case 'smart_text': $$.draw_text(ctx, $$.vars.STT, Math.floor(e.offsetX - half), Math.floor(e.offsetY + half), $$.vars.color, size*2, e);  break;   //keep it in middle
-            case 'stamper':    if(dummy) ctx.drawImage(dummy, Math.floor(e.offsetX - dummy.width/2), Math.floor(e.offsetY - dummy.height/2),  dummy.width, dummy.height); break;
+            case 'smart_text': $$.draw_text(ctx, $$.vars.STT, Math.floor(X - half), Math.floor(Y + half), $$.vars.color, size*2, e);  break;   //keep it in middle
+            case 'stamper':    if(dummy) ctx.drawImage(dummy, Math.floor(X - dummy.width/2), Math.floor(Y - dummy.height/2),  dummy.width, dummy.height); break;
           }
     },
     onMobile  : ()=> (window.matchMedia("only screen and (max-width: 760px)").matches && navigator.userAgent.search(/mobile|iPhone|Android|iPad/) > -1 ) ? true : false,
+
 
 }
 
 const main = function(){
     $$.collectQuery();
     if($$.onMobile() == false){
-       $$.vars.gestures = ['mousedown','mousemove','mouseup'];
+       $$.vars.gestures = ['mousedown','mousemove','mouseup', 'mouseout'];
     }else{
-       $$.vars.gestures = ['touchstart', 'touchmove', 'touchend'];
+       $$.vars.gestures = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
     }
     window.canvas = $$.query.paper;
     window.ctx = $$.query.paper.getContext('2d',  {willReadFrequently: true} );
     // SIDEBAR INPUTS ACTIONS
-    $$.query.sidebar.addEventListener(  $$.vars.gestures[0] , e=>{
+    $$.query.sidebar.addEventListener( $$.vars.gestures[0], e=>{
             let className = e.target.classList[0] || null;
             let activate = (e) => { $$.stripClass(quAll('.sidebar>.clicker'), 'active' ),
                                     e.classList.add('active'),
@@ -645,9 +670,7 @@ const main = function(){
                  case 'new':      qu('#readFile').click(); break;
                  case 'undo':     $$.clearCanvas(); $$.getPreviousVersion(); break;
                  case 'redo':     $$.clearCanvas(); $$.getPreviousVersion('redo');  break;
-                 case 'save':
-                       // if($$.isCanvasEmpty(ctx) == 'not-empty') $$.saveImageWithPhp();
-                 break;
+                 // case 'save':     if($$.isCanvasEmpty(ctx) == 'not-empty') $$.saveImageWithPhp();  break;
                  case 'export':   $$.exportAsSize();      break;
                  case 'gallery':  $$.openGallery();       break;
 
@@ -669,7 +692,7 @@ const main = function(){
               ($$.vars.type == 'crayon') ? $$.alpha(0.03900) : $$.alpha(null);   //0.03849  fadest
     });
     // GALLERY CONTROL START DELETE MODE
-    qu('.gallery-control').addEventListener( $$.vars.gestures[0], e=>{
+    qu('.gallery-control').addEventListener( $$.vars.gestures[0] , e=>{
         let className = e.target.classList[0] || null;
         switch(className){
           case 'delete-mode':
@@ -692,8 +715,10 @@ const main = function(){
     qu('.smart_text').addEventListener('input', e=> $$.vars.STT = e.target.value );
     // MOUSEDOWN
     $$.query.paper.addEventListener( $$.vars.gestures[0], e =>{   //mousedown || touchstart
-          $$.vars.mouse.x = e.offsetX;
-          $$.vars.mouse.y = e.offsetY;
+          let X = $$.mouseOrTouch(e , 'offsetX') || $$.mouseOrTouch(e , 'pageX');
+          let Y = $$.mouseOrTouch(e , 'offsetY') || $$.mouseOrTouch(e , 'pageY');
+          $$.vars.mouse.x = X;
+          $$.vars.mouse.y = Y;
           $$.vars.DRAWING = true;
 
           // SPECIAL CASSES to work on light touching of trackpad/screen
@@ -706,15 +731,18 @@ const main = function(){
           }
     });
     //HIDE ALL WHEN OUTSIDE
-    $$.query.paper.addEventListener('mouseout', e=> show_this(qu('.tracker'), 'none') );
+    $$.query.paper.addEventListener( $$.vars.gestures[3] , e=> show_this(qu('.tracker'), 'none') );
     //MOUSEMOVE
     $$.query.paper.addEventListener( $$.vars.gestures[1], e =>{   //mousemove || touchmove
         if($$.vars.DRAWING) $$.draw(e);
 
+        let X = $$.mouseOrTouch(e , 'offsetX') || $$.mouseOrTouch(e , 'pageX');
+        let Y = $$.mouseOrTouch(e , 'offsetY') || $$.mouseOrTouch(e , 'pageY');
+
         switch($$.vars.type){
            case 'line':
                  ctx.moveTo( $$.vars.mouse.x, $$.vars.mouse.y);
-                 ctx.lineTo( e.offsetX, e.offsetY);
+                 ctx.lineTo( X, Y);
                if($$.vars.DRAWING){
                   $$.clearCanvas();
                   $$.redrawCanvasImage();  //$$.vars.historyIndex
@@ -729,8 +757,10 @@ const main = function(){
     // MOUSEUP
     $$.query.paper.addEventListener( $$.vars.gestures[2], e =>{  //mouseup || touchend
         $$.vars.DRAWING = false;
-        $$.vars.shape.width  = e.offsetX - $$.vars.mouse.x;
-        $$.vars.shape.height = e.offsetY - $$.vars.mouse.y;
+        let X = $$.mouseOrTouch(e , 'offsetX') || $$.mouseOrTouch(e , 'pageX');
+        let Y = $$.mouseOrTouch(e , 'offsetY') || $$.mouseOrTouch(e , 'pageY');
+        $$.vars.shape.width  = X - $$.vars.mouse.x;
+        $$.vars.shape.height = Y - $$.vars.mouse.y;
         let Shape = $$.vars.shape;
         let save  = $$.query.save;
 

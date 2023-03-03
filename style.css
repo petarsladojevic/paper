@@ -45,7 +45,7 @@ body{
   display: grid;
   align-items: center;
   min-width: 20px;
-  height: 90%;
+  height: 87%;
   grid-row-gap: 15px;
 }
 .sidebar> form{
@@ -167,7 +167,7 @@ body{
 .point-c-holder{
   position: absolute!important;
   bottom: 30px;
-  left: -25px;
+  left: -24px;
 }
 .point-control{
   transform: rotate(-90deg);
@@ -388,3 +388,16 @@ body{
 .crayon{
   background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2236px%22%20height%3D%2236px%22%20viewBox%3D%220%200%2036%2036%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20aria-hidden%3D%22true%22%20role%3D%22img%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%0A%0A%3Cpath%20fill%3D%22%23565b62%22%20d%3D%22M35.702%207.477L28.522.298a1.015%201.015%200%200%200-1.436%200L3.395%2023.989a1.016%201.016%200%200%200%200%201.437c.72.719-3.14%207.959-3.395%208.496L2.068%2036c.536-.255%207.785-4.115%208.506-3.395a1.015%201.015%200%200%200%201.436%200L35.702%208.913a1.015%201.015%200%200%200%200-1.436z%22%3E%0A%3C%2Fpath%3E%0A%3Cpath%20fill%3D%22%23d5d9e0%22%20d%3D%22M4.139%2023.24L26.407.972l8.62%208.62L12.759%2031.86z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23292F33%22%20d%3D%22M23.534%203.846l1.437-1.436l8.62%208.62l-1.437%201.436zM5.576%2021.803l1.436-1.437l8.62%208.62l-1.437%201.437z%22%3E%3C%2Fpath%3E%0A%0A%3Cpath%20fill%3D%22%23a3a8b2%22%20d%3D%22M26.886%209.353c-1.521-1.521-5.982.476-9.967%204.459c-3.983%203.984-5.979%208.446-4.459%209.967c1.52%201.521%205.983-.476%209.967-4.459c3.983-3.984%205.979-8.447%204.459-9.967z%22%3E%3C%2Fpath%3E%0A%3C%2Fsvg%3E");
 }
+
+/* MOBILE */
+@media(max-width: 611px){
+    .sidebar::-webkit-scrollbar {
+        width: 0px; /* For Chrome, Safari, and Opera */
+        display: none;
+    }
+   .sidebar{max-height: 75%;}
+}
+
+/* LANDSCAPE */
+/* @media screen and (max-width: 751px) and (orientation: landscape) {
+/* } */
