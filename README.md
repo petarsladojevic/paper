@@ -1,4 +1,4 @@
-# paper   <img src="./setup/icon.png" width="99" height="99">
+# paper  <div style="text-align:right;width:100%;"> <img src="./setup/icon.png" width="99" height="99"> </div>
 Paper program is intended to enable user to quickly create online sketches, export ready. 
 <pre>
   About :  Hello stranger, my name is PAPER. I've been created, to make notes, by drawing, fast, versatile and easy,
