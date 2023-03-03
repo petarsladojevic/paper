@@ -396,6 +396,10 @@ body{
         display: none;
     }
    .sidebar{max-height: 75%;}
+   .color-picker{
+     top: 3%;
+     left: 10%;
+   }
 }
 
 /* LANDSCAPE */
