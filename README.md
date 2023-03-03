@@ -1,5 +1,4 @@
-# paper
-<img src="./setup/icon.png" width="150" height="150">
+# paper   <img src="./setup/icon.png" width="99" height="99">
 Paper program is intended to enable user to quickly create online sketches, export ready. 
 <pre>
   About :  Hello stranger, my name is PAPER. I've been created, to make notes, by drawing, fast, versatile and easy,
