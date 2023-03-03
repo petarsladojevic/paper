@@ -22,6 +22,7 @@ const $$ = {
         gallery : [],
         loaded : {}
      },
+     gestures : ['mousedown', 'mousemove', 'mouseup'],
      toolSize : {
              'pen'    : 5,
              'pencil' : 4,
@@ -619,15 +620,21 @@ const $$ = {
             case 'stamper':    if(dummy) ctx.drawImage(dummy, Math.floor(e.offsetX - dummy.width/2), Math.floor(e.offsetY - dummy.height/2),  dummy.width, dummy.height); break;
           }
     },
+    onMobile  : ()=> (window.matchMedia("only screen and (max-width: 760px)").matches && navigator.userAgent.search(/mobile|iPhone|Android|iPad/) > -1 ) ? true : false,
 
 }
 
 const main = function(){
     $$.collectQuery();
+    if($$.onMobile() == false){
+       $$.vars.gestures = ['mousedown','mousemove','mouseup'];
+    }else{
+       $$.vars.gestures = ['touchstart', 'touchmove', 'touchend'];
+    }
     window.canvas = $$.query.paper;
     window.ctx = $$.query.paper.getContext('2d',  {willReadFrequently: true} );
     // SIDEBAR INPUTS ACTIONS
-    $$.query.sidebar.addEventListener('click', e=>{
+    $$.query.sidebar.addEventListener(  $$.vars.gestures[0] , e=>{
             let className = e.target.classList[0] || null;
             let activate = (e) => { $$.stripClass(quAll('.sidebar>.clicker'), 'active' ),
                                     e.classList.add('active'),
@@ -662,7 +669,7 @@ const main = function(){
               ($$.vars.type == 'crayon') ? $$.alpha(0.03900) : $$.alpha(null);   //0.03849  fadest
     });
     // GALLERY CONTROL START DELETE MODE
-    qu('.gallery-control').addEventListener('click', e=>{
+    qu('.gallery-control').addEventListener( $$.vars.gestures[0], e=>{
         let className = e.target.classList[0] || null;
         switch(className){
           case 'delete-mode':
@@ -684,7 +691,7 @@ const main = function(){
     //SMART TEXT UPADTE
     qu('.smart_text').addEventListener('input', e=> $$.vars.STT = e.target.value );
     // MOUSEDOWN
-    $$.query.paper.addEventListener('mousedown', e =>{
+    $$.query.paper.addEventListener( $$.vars.gestures[0], e =>{   //mousedown || touchstart
           $$.vars.mouse.x = e.offsetX;
           $$.vars.mouse.y = e.offsetY;
           $$.vars.DRAWING = true;
@@ -701,7 +708,7 @@ const main = function(){
     //HIDE ALL WHEN OUTSIDE
     $$.query.paper.addEventListener('mouseout', e=> show_this(qu('.tracker'), 'none') );
     //MOUSEMOVE
-    $$.query.paper.addEventListener('mousemove', e =>{
+    $$.query.paper.addEventListener( $$.vars.gestures[1], e =>{   //mousemove || touchmove
         if($$.vars.DRAWING) $$.draw(e);
 
         switch($$.vars.type){
@@ -720,7 +727,7 @@ const main = function(){
         }
     });
     // MOUSEUP
-    $$.query.paper.addEventListener('mouseup', e =>{
+    $$.query.paper.addEventListener( $$.vars.gestures[2], e =>{  //mouseup || touchend
         $$.vars.DRAWING = false;
         $$.vars.shape.width  = e.offsetX - $$.vars.mouse.x;
         $$.vars.shape.height = e.offsetY - $$.vars.mouse.y;
