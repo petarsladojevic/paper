@@ -2,6 +2,7 @@ const HELP={
   "About" : "Hello stranger, my name is PAPER. I've been created, to make notes, by drawing, fast, versatile and easy",
   "⏻"     : "Power",
   "+"     : "Upload image file",
+  "fs"    : "File Save (to GALLERY)",
   "⮐"    : "Undo last draw",
   "⮑"    : "Redo last undo",
   "⛏"     : "Export as: [width/height/type] OR use default",
@@ -41,20 +42,22 @@ Commands:
   "point-control" : `・・・・・・<span class="large">●</span>・・        (0-max) = stroke, max = fill shape`,
   "<span style='color:var(--bluish)'>.</span>" : "Data inside...",
   "Keyboard" : `
-<pre>
-          KEYBOARD shortcuts
-          ________________________________
-          ESC . . . . . . . . . . . .  POW
-          ± 1 2 3 4 5 6 7 8 9 <span class="bitno">0 - + DELETE</span>
-          TAB q w e r t y u i <span class="bitno">o</span> p [ ]   EE
-          ===  a <span class="bitno">s</span> d f g h j k l ; ' \\
-          == ~ z <span class="bitno">x c v </span> b n m , . /   SHIFT
-          = ^ ⌥ ⌘ <span class="bitno">▬▬▬▬▬▬▬▬▬▬▬</span> ⌘ ⌥    ◀︎ ▲ ▶︎
+<pre style="white-space:pre!important;">
+KEYBOARD shortcuts
+________________________________
+ESC . . . . . . . . . . . .  POW
+± 1 2 3 4 5 6 7 8 9 <span class="bitno">0 - + DELETE</span>
+TAB q w e r t y u i <span class="bitno">o</span> p [ ]   EE
+===  a <span class="bitno">s</span> d f g h j k l ; ' \\
+== ~ z <span class="bitno">x c v </span> b n m , . /   SHIFT
+= ^ ⌥ ⌘ <span class="bitno">▬▬▬▬▬▬▬▬▬▬▬</span> ⌘ ⌥    ◀︎ ▲ ▶︎
 </pre>
               `,
-  "templates": `<pre></pre>`
+  "templates": `<pre style="white-space: break-spaces"></pre>`
 
 }
+
+
 
 
 const MIME = {

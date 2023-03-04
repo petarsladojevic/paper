@@ -16,6 +16,7 @@ const u_pick = function(question, defaults=[],  action ){
      if(typeof question == 'string')  div.innerHTML = question;  //ACCEPTS FORMATING OF QUESTION
      else  return false;
 
+
      let elems = [];
 
      //DEFAULTS are passsed as  [value, placeholder, title];
@@ -42,10 +43,12 @@ const u_pick = function(question, defaults=[],  action ){
       yes.value = 'yes';
       no.value = 'no';
 
-      document.body.appendChild(div);
+      if(qu('.restovi')!= null) qu('.restovi').appendChild(div)
+      else                     document.body.appendChild(div);
+
       div.appendChild(yes);
       div.appendChild(no);
-      document.getElementById('A').focus();
+      // document.getElementById('A').focus();
     }
     init_choice(); //CALLED IMIDIATLY
 
@@ -61,6 +64,7 @@ const u_pick = function(question, defaults=[],  action ){
           }
        });
 }
+
 // TITLER
 const titlerAt = (x, y, content)=>{
       let T = qu('.titler');
@@ -70,6 +74,8 @@ const titlerAt = (x, y, content)=>{
           T.style.display = 'block';
           // setTimeout( t=> T.style.display = 'none', 3* 1000);
 }
+
+
 const draw_multiline_text = (it, text, x, y, color, size, maxWidth)=>{
       let factor = 0.66;  //multiple by factor of size vs char (to get rough aproximaate value)
       let charsPerLine = parseInt(Math.abs(maxWidth) / (size * factor));
@@ -85,26 +91,81 @@ const draw_multiline_text = (it, text, x, y, color, size, maxWidth)=>{
           }
           if(line_index == totalLines-1 && i == text.length-1)  $$.draw_text(it, line , x, y + (size) * line_index , color, size);    //LAST LINE
       }
+
 }
+
+
 const encodeSvg =(svg_str)=>{
-      return "data:image/svg+xml," + encodeURIComponent(svg_str);
+  return "data:image/svg+xml," + encodeURIComponent(svg_str);
 }
+
 const calcAngleDegrees = function(x, y) {
-      //CALCULATE ANGLE IN DEGREES
-      return Math.atan2(y, x) * 180 / Math.PI;
+  //CALCULATE ANGLE IN DEGREES
+  return Math.atan2(y, x) * 180 / Math.PI;
 }
+
 const addAnimation =(el, time)=>{
       el.style.animation = "iphoneDelete " + time + 's';
       setTimeout( t=>el.style.animation = '', time * 3 * 1000);
 }
+
 // Create a function for getting a variable value
 function style_get(property) {
-      const r = document.querySelector(':root');
-      const style = getComputedStyle(r);
-            style.getPropertyValue(property);
+  const r = document.querySelector(':root');
+  const style = getComputedStyle(r);
+        style.getPropertyValue(property);
 }
+
 // Create a function for setting a variable value
 function style_set(now, next) {
-      const r = document.querySelector(':root');
-            r.style.setProperty(now, next);
+  const r = document.querySelector(':root');
+        r.style.setProperty(now, next);
+}
+
+const LIST = {
+"0": "paper_Mon_Dec_19_2022_21_09_21.png",
+"1": "paper_Sat_Dec_10_2022_15_24_09.png",
+"2": "paper_Sat_Dec_17_2022_22_25_24.png",
+"3": "paper_Sat_Dec_17_2022_22_25_44.png",
+"4": "paper_Sat_Jan_21_2023_08_55_06.png",
+"5": "paper_Sun_Dec_18_2022_17_13_20.png",
+"6": "paper_Sun_Jan_22_2023_10_22_39.png",
+"7": "paper_Sun_Jan_22_2023_21_46_47.png",
+"8": "paper_Thu_Dec_08_2022_21_49_06.png",
+"9": "paper_Thu_Dec_15_2022_21_33_25.png",
+"10": "paper_Thu_Dec_15_2022_22_03_31.png",
+"11": "paper_Wed_Dec_14_2022_10_13_16.png"
+}
+
+const JSreadGallery = async function(){
+           // fetch('./GALLERY/list.js').then( x=> (x.ok) ? x.json() : false).then( xx=> action(xx) );
+           const action = (xx)=>{
+                let arr = Object.values(xx);
+                let view = qu('.gallery-view');
+                    view.innerHTML = '';
+                   for(let i = 0;i< arr.length;i++){
+                       let div = dce('div');
+                           div.classList.add('gallery-file');
+                       let span = dce('span');
+                           span.classList.add('gallery-file-name');
+                       let downloadSpan = dce('span');
+                           downloadSpan.innerText = '⬇︎';
+                           downloadSpan.title = `DOWNLOAD ⬇︎`;
+                           downloadSpan.classList.add('gallery-file-export');
+                           span.innerText = arr[i];
+                           div.setAttribute('name', arr[i] );
+                           div.appendChild(span);
+                           div.appendChild(downloadSpan);
+                           downloadSpan.addEventListener('click', e=> $$.exportImage('./GALLERY/'+ downloadSpan.parentElement.getAttribute('name')) );
+                       fetch('./GALLERY/'+ arr[i] ).then( x=> x.blob() ).then( async xx=> div.style.background = await `url(${URL.createObjectURL(xx)})` );
+                       div.addEventListener('click', async e=> {
+                           $$.fetchImage('./GALLERY/'+ arr[i]);
+                           $$.vars.FILES['loaded']['name'] = arr[i]; //SAVE NAMES
+                       });
+                       view.appendChild(div);
+                   }
+                   $$.vars.FILES['gallery'] = arr; //SAVE NAMES
+          }
+          action(LIST);
+          // let arr = $$.vars.RESPONSE.split(`\n`).filter( x=> (x != '') );
 }

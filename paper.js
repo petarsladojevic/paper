@@ -98,7 +98,14 @@ const $$ = {
               let gal = qu('.gallery-holder');
               ( gal && gal.style.display == 'block' ) ? show_this(gal,'none') : show_this(gal,'block');
 
-               if(gal.style.display == 'block')  $$.readGallery();
+               if(gal.style.display == 'block') {
+                  $$.readGallery();
+                  setTimeout( t=> {
+                    if(quAll('.gallery-file').length < 1){
+                      JSreadGallery(); //READ WITH JS ONLY (for github->no PHP)
+                    }
+                  }, 1* 1000);
+               }
     },
     openPicker : function(){
               let picker = qu('.color-picker');
@@ -144,35 +151,34 @@ const $$ = {
               $$.vars.DUMMY = IMAGE; //DUMMY
     },
     readGallery : async function(){
-               fetch('./GALLERY/list.js').then( x=> (x.ok) ? x.json() : false).then( xx=> action(xx) );
-               const action = (xx)=>{
-                    let arr = Object.values(xx);
-                    let view = qu('.gallery-view');
-                        view.innerHTML = '';
-                       for(let i = 0;i< arr.length;i++){
-                           let div = dce('div');
-                               div.classList.add('gallery-file');
-                           let span = dce('span');
-                               span.classList.add('gallery-file-name');
-                           let downloadSpan = dce('span');
-                               downloadSpan.innerText = '⬇︎';
-                               downloadSpan.title = `DOWNLOAD ⬇︎`;
-                               downloadSpan.classList.add('gallery-file-export');
-                               span.innerText = arr[i];
-                               div.setAttribute('name', arr[i] );
-                               div.appendChild(span);
-                               div.appendChild(downloadSpan);
-                               downloadSpan.addEventListener('click', e=> $$.exportImage('./GALLERY/'+ downloadSpan.parentElement.getAttribute('name')) );
-                           fetch('./GALLERY/'+ arr[i] ).then( x=> x.blob() ).then( async xx=> div.style.background = await `url(${URL.createObjectURL(xx)})` );
-                           div.addEventListener('click', async e=> {
-                               $$.fetchImage('./GALLERY/'+ arr[i]);
-                               $$.vars.FILES['loaded']['name'] = arr[i]; //SAVE NAMES
-                           });
-                           view.appendChild(div);
-                       }
-                       $$.vars.FILES['gallery'] = arr; //SAVE NAMES
-              }
-              // let arr = $$.vars.RESPONSE.split(`\n`).filter( x=> (x != '') );
+              let inicijator = $$.vars.gestures[0]; //mousedown || touchstart
+              let response = await $$.server_request( "./GALLERY/" , ()=>{
+              let arr = $$.vars.RESPONSE.split(`\n`).filter( x=> (x != '') );
+               let view = qu('.gallery-view');
+                   view.innerHTML = '';
+                  for(let i = 0;i< arr.length;i++){
+                      let div = dce('div');
+                          div.classList.add('gallery-file');
+                      let span = dce('span');
+                          span.classList.add('gallery-file-name');
+                      let downloadSpan = dce('span');
+                          downloadSpan.innerText = '⬇︎';
+                          downloadSpan.title = `DOWNLOAD ⬇︎`;
+                          downloadSpan.classList.add('gallery-file-export');
+                          span.innerText = arr[i];
+                          div.setAttribute('name', arr[i] );
+                          div.appendChild(span);
+                          div.appendChild(downloadSpan);
+                          downloadSpan.addEventListener( inicijator , e=> $$.exportImage('./GALLERY/'+ downloadSpan.parentElement.getAttribute('name')) );
+                      fetch('./GALLERY/'+ arr[i] ).then( x=> x.blob() ).then( async xx=> div.style.background = await `url(${URL.createObjectURL(xx)})` );
+                      div.addEventListener( inicijator, async e=> {
+                          $$.fetchImage('./GALLERY/'+ arr[i]);
+                          $$.vars.FILES['loaded']['name'] = arr[i]; //SAVE NAMES
+                      });
+                      view.appendChild(div);
+                  }
+                  $$.vars.FILES['gallery'] = arr; //SAVE NAMES
+             });
     },
     //READ UPLOADED FILE
     readUploadedFile : async function( from ){
@@ -209,19 +215,51 @@ const $$ = {
                      else if(file.type.search('text/') > -1)  reader.readAsText(file);
                });
     },
-    generateFileName : function(){
+    // SEND REQUEST TO SERVER and ask for action
+    server_request : async function(reason, callback, other){
+              let xr = new XMLHttpRequest();
+              let link = location.href;
+              let url =  "./file_manager.php"; //can be any server language
+              xr.open("POST", url, true);
+              xr.setRequestHeader("Content-Type", "application/json");
+                 xr.onreadystatechange = function () {
+                    if(xr.readyState == 4 && xr.status === 200) {
+                            // console.log('%c ->ok', 'color: darkcyan'); //ALL GOOD
+                            if(other != null) other = xr.responseText;
+                            else $$.vars.RESPONSE = xr.responseText;
+                            if(typeof callback != "undefined") callback();
+                  }else return false;     // console.log('%c _', 'color:crimson'); //REJECTED
+               }
+              //ALL DATA PASSED TO PHP SHOULD BE stringify IF STRING (NUMBERS CAN BE PASSED DIRECT)
+              let data = JSON.stringify(reason);
+              await xr.send(data);
+     },
+     generateFileName : function(){
              let ln  = $$.vars.FILES.loaded.name;
              let arr = $$.vars.FILES.gallery;
              if(arr.includes(ln)) return ln;
              else                 return $$.randomName();
-    },
-    randomName : function(){
+     },
+     randomName : function(){
              let date = new Date();
              let time = date.toLocaleTimeString().split(':').join('_');
              let day = date.toDateString().split(' ').join('_');
              return 'paper_' + day+'_'+ time + '.png';
-    },
-    deleteMode : function(state){
+     },
+     // SAVE IMAGE BY SENDING DATA TO SERVER
+     saveImageWithPhp : function(imageData){
+             imageData = imageData || canvas.toDataURL('image/png', 1.1);
+             let data = imageData.split('data:image/png;base64,')[1];
+             let generatedName = $$.generateFileName();
+             let path = "./GALLERY/" + generatedName;
+             $$.server_request("save_image" + "," + path + "," + data );
+     },
+     //DELETE FILE
+     deleteFile : function(name){
+            let path = "./GALLERY/" + name;
+            $$.server_request('unlink' + ',' + path);
+     },
+     deleteMode : function(state){
            let gall = qu('.gallery-view');
            let children = gall.children;
 
@@ -399,9 +437,9 @@ const $$ = {
 
                          //CLEAN AFTER YOURSELF
                          $$.vars.COLOR_DETECTOR = false;
-                         canvas.removeEventListener('click', detect );
+                         canvas.removeEventListener($$.vars.gestures[0], detect );
                    }
-                  canvas.addEventListener('click', detect );
+                  canvas.addEventListener($$.vars.gestures[0], detect );
                   qu('.color-detect').classList.add('running');
               },
     // RESIZE CANVAS TO SPACE AVAILABLE
@@ -520,7 +558,7 @@ const $$ = {
              let dtx = dispo.getContext('2d');
                  dtx.putImageData(imageData, 0, 0);
              let data = dispo.toDataURL('image/png', 1.0);
-                 // $$.saveImageWithPhp(data);
+                 $$.saveImageWithPhp(data);
               setTimeout( t=> dispo.remove(), 1* 1000);
     },
     preDesignSetup : function(){
@@ -557,9 +595,13 @@ const $$ = {
     mouseOrTouch : (e, what)=>{
           if($$.vars.gestures.includes('touchstart')){
              const touches = e.changedTouches[0];
-                // log(touches);
                    e.preventDefault();
-             return touches[what] - (touches['radiusX']/2);
+                   if(what.search(/X/) > -1){
+                      return touches[what] - (touches['radiusX']*2);
+                   }else{
+                      return touches[what] + (touches['radiusY']/2);
+                   }
+
           }else{
              return e[what];
          }
@@ -669,6 +711,7 @@ const main = function(){
                  case 'power':    location.reload();       break;
                  case 'undo':     $$.clearCanvas(); $$.getPreviousVersion(); break;
                  case 'redo':     $$.clearCanvas(); $$.getPreviousVersion('redo');  break;
+                 case 'save':     if($$.isCanvasEmpty(ctx) == 'not-empty') $$.saveImageWithPhp();  break;
                  case 'export':   $$.exportAsSize();      break;
                  case 'gallery':  $$.openGallery();       break;
 
@@ -772,7 +815,7 @@ const main = function(){
        }
        let weSaved = ['line'];
        if( weSaved.includes($$.vars.type) == false) $$.saveCanvasImage(e); //AUTO SAVE IMAGE
-       // if(save.classList.contains('disabled') ) save.classList.remove('disabled'); //ENABLE SAVE
+       if(save && save.classList.contains('disabled') ) save.classList.remove('disabled'); //ENABLE SAVE
     });
    // RESIZE
    window.addEventListener('resize', e=>{
@@ -799,6 +842,7 @@ const main = function(){
           case 'o':          Shape =$$.correctShape();  if(Shape && Shape.length > 1) $$.drawCircle(Shape[0] + Shape[2]/2, Shape[1] + Shape[2]/2, Shape[2]/2, $$.vars.color);  break;
         }
    });
+
    // SET ON START
    $$.colorPicker(); //START COLOR PICKER with color pallete
    $$.readUploadedFile(qu('#readFile'));

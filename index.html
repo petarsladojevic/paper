@@ -3,10 +3,11 @@
  <head><meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="shortcut icon" href="setup/icon.png" type="image/png">
+  <link rel="shortcut icon" href="setup/icon.png" type="image/png" >
+
   <link  rel="preload stylesheet"
          as="style"
-         href="./lib/cloak.css">
+         href="../PUBLIC/css/cloak.css">
   <link  rel="preload stylesheet"
          as="style"
          href="style.css">
@@ -18,9 +19,10 @@
     <div class="sidebar">
        <div class="power clicker"    title="RELOAD" >⏻</div>
        <form> <input type="file" id="readFile"  class="new clicker" value="+" accept="image/*, text/*" /></form>
+       <div class="save clicker back-face disabled"   title="SAVE" ></div>
        <div class="undo clicker"     title="UNDO" >⮐</div>
        <div class="redo clicker"     title="REDO" >⮑</div>
-       <div class="export clicker"   title="EXPORT" >⛏</div>
+       <div class="export clicker back-face"   title="EXPORT"></div>
        <div class="gallery clicker"  title="GALLERY" >⎕⎕</div>
        <div class="pen clicker back-face active"  title="PEN"></div>
        <div class="pencil clicker back-face"  title="PENCIL"></div>
@@ -59,6 +61,7 @@
   <div class="tracker">
     <span class="cors"></span>
   </div>
+  <div class="zoom-1">Z1</div>
 </div>
 
 <script src="help.js"></script>
