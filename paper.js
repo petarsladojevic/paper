@@ -667,10 +667,8 @@ const main = function(){
                                   };
              switch(className){
                  case 'power':    location.reload();       break;
-                 case 'new':      qu('#readFile').click(); break;
                  case 'undo':     $$.clearCanvas(); $$.getPreviousVersion(); break;
                  case 'redo':     $$.clearCanvas(); $$.getPreviousVersion('redo');  break;
-                 // case 'save':     if($$.isCanvasEmpty(ctx) == 'not-empty') $$.saveImageWithPhp();  break;
                  case 'export':   $$.exportAsSize();      break;
                  case 'gallery':  $$.openGallery();       break;
 

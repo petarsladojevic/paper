@@ -34,6 +34,18 @@ body{
   cursor: url("images/circle(16x16).svg") 8 8, default;
   caret-color: var(--green);
 }
+input[type=file]::file-selector-button{
+  filter: opacity(0);
+}
+input[type=file]{
+    width: 24px;
+}
+input[type=file]::before{
+  content: "+";
+  filter: opacity(100%);
+  margin-left: 19%;
+  font-size: larger;
+}
 .container{
   min-height: 100%;
   height: 100vh;
@@ -399,6 +411,19 @@ body{
    .color-picker{
      top: 3%;
      left: 10%;
+   }
+   .help-holder{
+     position: absolute;
+     top: 0;
+     display: none;
+     right: 0;
+     left: 0;
+     bottom: 0;
+     margin: auto;
+     padding: 10px 2%;
+     overflow: scroll;
+     background: #d181814f;
+     margin-left: 6%;
    }
 }
 

@@ -2,7 +2,6 @@ const HELP={
   "About" : "Hello stranger, my name is PAPER. I've been created, to make notes, by drawing, fast, versatile and easy",
   "⏻"     : "Power",
   "+"     : "Upload image file",
-  "fs"    : "File Save (to GALLERY)",
   "⮐"    : "Undo last draw",
   "⮑"    : "Redo last undo",
   "⛏"     : "Export as: [width/height/type] OR use default",
@@ -56,8 +55,6 @@ Commands:
   "templates": `<pre></pre>`
 
 }
-
-
 
 
 const MIME = {
