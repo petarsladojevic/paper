@@ -39,6 +39,7 @@ input[type=file]::file-selector-button{
 }
 input[type=file]{
     width: 24px;
+    margin-left: -5px;
 }
 input[type=file]::before{
   content: "+";
@@ -61,7 +62,7 @@ input[type=file]::before{
   grid-row-gap: 15px;
 }
 .sidebar> form{
-  width: 1px;
+  /* width: 1px; */
   max-height: 25px;
 }
 .sidebar> div{
@@ -264,6 +265,7 @@ input[type=file]::before{
   bottom: 0;
   margin: auto;
   padding: 20px 20%;
+  overflow: scroll;
 }
 /* FOR ANY WITH background */
 .back-face{
@@ -363,13 +365,33 @@ input[type=file]::before{
   background-image: linear-gradient(50deg, #000 1px, #0000 1px), linear-gradient(-50deg, #000 1px, #0000 1px);
   background-size: 30px 30px;
 }
-.zoom-1{
-  display: none;
-  position: fixed;
-  bottom: 2%;
-  right: 2%;
+.light-paper{
+  background-image: linear-gradient(35deg, silver, snow 9px), linear-gradient(-45deg, silver, snow);
+  background-size: 2px 2px;
 }
 
+/* VIRTUAL KEYBOARD OPTIONS KEYS */
+.keyboard-options{
+  display: grid;
+  position: absolute;
+  top: -2px;
+  left: -24px;
+  text-align: center;
+  grid-gap: 7px;
+}
+.option{
+  background: #282c34;
+  border-radius: 3px;
+  outline: none;
+  width: 20px;
+  height: auto;
+}
+.option:hover{
+  filter: invert(1);
+}
+.option[title='delete']{
+  font-family: auto;
+}
 /* SVG ICONS backgrounds */
 .export{
     background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0A%3Csvg%20width%3D%22800px%22%20height%3D%22800px%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M11.3705%2010.384C10.7848%2010.9698%2010.7848%2011.9195%2011.3705%2012.5053L11.4373%2012.5721C12.0231%2013.1579%2012.9728%2013.1579%2013.5586%2012.5721L16.6736%209.45707C16.8178%209.31284%2016.9266%209.14656%2016.9998%208.96907C16.9999%208.97936%2017%208.98967%2017%209V17C17%2018.1046%2016.1046%2019%2015%2019H7C5.89543%2019%205%2018.1046%205%2017V9C5%207.89543%205.89543%207%207%207L14.8511%207C14.7195%207.06882%2014.5961%207.15848%2014.4855%207.269L11.3705%2010.384Z%22%20fill%3D%22%2370797e%22%2F%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M19.2175%204.78249C19.4128%204.97776%2019.4128%205.29434%2019.2175%205.4896L12.8536%2011.8536C12.6583%2012.0488%2012.3417%2012.0488%2012.1464%2011.8536C11.9512%2011.6583%2011.9512%2011.3417%2012.1464%2011.1465L18.5104%204.78249C18.7057%204.58723%2019.0223%204.58723%2019.2175%204.78249Z%22%20fill%3D%22%2370797e%22%2F%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M14%204.5C14%204.22386%2014.2239%204%2014.5%204H19.5C19.7761%204%2020%204.22386%2020%204.5V9.5C20%209.77614%2019.7761%2010%2019.5%2010C19.2239%2010%2019%209.77614%2019%209.5V5H14.5C14.2239%205%2014%204.77614%2014%204.5Z%22%20fill%3D%22%2370797e%22%2F%3E%0A%3C%2Fsvg%3E");

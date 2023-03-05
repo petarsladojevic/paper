@@ -134,7 +134,8 @@ const LIST = {
 "8": "paper_Thu_Dec_08_2022_21_49_06.png",
 "9": "paper_Thu_Dec_15_2022_21_33_25.png",
 "10": "paper_Thu_Dec_15_2022_22_03_31.png",
-"11": "paper_Wed_Dec_14_2022_10_13_16.png"
+"11": "paper_Wed_Dec_14_2022_10_13_16.png",
+"12": "texture.png",
 }
 
 const JSreadGallery = async function(){
@@ -169,3 +170,11 @@ const JSreadGallery = async function(){
           action(LIST);
           // let arr = $$.vars.RESPONSE.split(`\n`).filter( x=> (x != '') );
 }
+
+const phpVsRest = function(){
+   let loc = location.origin;
+   if(loc.search(/:[0-9]/) > -1) console.log("(🐍)Python version...");
+   else                          console.log("(🐘)Php version...");
+}
+
+phpVsRest();  //get info

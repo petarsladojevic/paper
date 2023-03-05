@@ -483,7 +483,7 @@ const $$ = {
           const change = (that, mode)=> {
             let percW = that.width / 100, percH = that.height / 100;
             switch(mode){
-              case '=':  that.width +=percW;  that.height +=percH;  break;   //= and + are on the same key
+              case '=': case '+':  that.width +=percW;  that.height +=percH;  break;   //= and + are on the same key
               case '-':  that.width -=percW;  that.height -=percH;  break;
               case '0':  that.width = that.naturalWidth; that.height = that.naturalHeight;  break;
             }
@@ -528,13 +528,45 @@ const $$ = {
                     tra.style.top  = shape.y +'px';
                     tra.style.width  = shape.width + 'px';
                     tra.style.height = shape.height + 'px';
-                    $$.setCors(shape.width, shape.height);
+                    $$.setCors( parseInt(shape.width), parseInt(shape.height) );
+                    qu('.keyboard-options').style.left = shape.x - 24 + 'px';  //SHOW KEYBOARD OPTIONS ALSO ALONG WITH SELECT
+                    qu('.keyboard-options').style.top  = shape.y + 'px';
           break;
         }
         show_this( tra, 'block');
     },
     // SHOW CORDINATES OF SELECT BOX
     setCors : (x, y )=> qu('.cors').innerText = x +','+ y,
+    // CREATE OPTIONS THAT ARE PARALLEL TO KEYBOARD SHORTCUTS
+    createOptions : function(){
+          let opt = ['v', 'x', 'c', '⌫', '□', '◯'];
+          let titles = ['paste', 'cut', 'copy', 'delete', 'rect', 'circle'];
+          let Shape;
+
+          for(let i = 0; i< opt.length;i++){
+              let span = dce('span');
+              span.innerText = opt[i];
+              span.classList.add('option');
+              span.setAttribute('data', opt[i]);
+              span.title = titles[i];
+
+              span.addEventListener($$.vars.gestures[0], e=>{
+                  let iDo = span.getAttribute('data');
+                  switch( iDo ){
+                      case 'v':     Shape =$$.correctShape();  if(Shape && Shape.length > 1 && $$.vars.cutImage ) ctx.putImageData($$.vars.cutImage, Shape[0], Shape[1] );      break;  //PASTE
+                      case 'x':     Shape =$$.correctShape();  if(Shape && Shape.length > 1) $$.cutPaper(...Shape, 'cut');   break; //CUT
+                      case 'c':     Shape =$$.correctShape();  if(Shape && Shape.length > 1) $$.cutPaper(...Shape, 'copy');  break; //COPY
+                      case '⌫':     Shape =$$.correctShape();  if(Shape && Shape.length > 1) $$.cutPaper(...Shape);          break; //DELETE
+                      case '□':     Shape =$$.correctShape();  if(Shape && Shape.length > 1) $$.drawRect(...Shape, $$.vars.color);  break;   //RECT
+                      case '◯':     Shape =$$.correctShape();  if(Shape && Shape.length > 1) $$.drawCircle(Shape[0] + Shape[2]/2, Shape[1] + Shape[2]/2, Shape[2]/2, $$.vars.color);  break; //CIRCLE
+
+                      // case 's':          Shape =$$.correctShape();  if(Shape && Shape.length > 1) $$.cutPaper(...Shape, 'save'); addAnimation(qu('#paper'), 0.5);  break;
+                      // case '+':  case '-': case '0':   Shape =$$.correctShape();  if(Shape && Shape.length > 1 ) $$.manipulation($$.vars.DUMMY, iDo);  break;
+                  }
+              });
+            qu('.keyboard-options').appendChild(span);
+        }
+    },
     correctShape : function(){
           if(qu('.tracker').style.display != 'none'){
              let shape =  $$.vars.shape;
@@ -575,6 +607,7 @@ const $$ = {
                  "word" : 'word-screen',
                  "cal"  : 'calendar-screen',
                  "dots" : 'dots-screen',
+                 "light-paper" : 'light-paper',
                };
              let Ok = Object.keys(designs), Ov = Object.values(designs);
              let holder = qu('.paper-holder');
@@ -583,13 +616,26 @@ const $$ = {
                       btn.classList.add('design-btn', 'btn');
                       btn.innerText = Ok[i];
                       btn.setAttribute('design', Ov[i]);
-                      btn.addEventListener('click', e=>{
+                      btn.addEventListener( $$.vars.gestures[0], e=>{
                         let des = btn.getAttribute( 'design' );
                         if(holder.classList[1] != null) holder.classList.remove( holder.classList[1] );
                           (des == 'none') ? '' : holder.classList.add(des);
                       });
                   qu('[ref="templates"]').nextSibling.getElementsByTagName('pre')[0].appendChild(btn);
              }
+    },
+    createCompositions : function(){
+        let arr = ['source-over', 'destination-out'];
+        for(let i =0;i< arr.length;i++){
+            let btn = dce('button');
+                btn.classList.add('btn');
+                btn.innerText = arr[i][0];
+                btn.title = arr[i];
+                btn.setAttribute('data', arr[i] );
+                btn.addEventListener( $$.vars.gestures[0], e=> ctx.globalCompositeOperation = e.target.getAttribute( 'data' ));
+                qu('[ref="composition"]').nextSibling.getElementsByTagName('pre')[0].appendChild(btn);
+        }
+
     },
     // DETERMINE SHOULD YOU USE MOUSE OR FINGER(TOUCH)
     mouseOrTouch : (e, what)=>{
@@ -636,7 +682,7 @@ const $$ = {
 
           $$.stylus.end(e);
     },
-    //PEN AND MARKER USE THE SAME THING
+    //PEN, MARKER USE THE SAME THING
     pen : function(e, size, color, ordinary){
           $$.stylus.start(color);
 
@@ -679,7 +725,7 @@ const $$ = {
             case 'pencil':     $$.grafitePencil(e, $$.vars.draw_size, $$.vars.color, true);  break;
             case 'pen'   :     $$.pen(e, $$.vars.draw_size, $$.vars.color, true);            break;
             case 'marker':     $$.pen(e, 25, $$.faded(0.05) || '#0000000a' );                break;
-            case 'crayon' :    $$.pen(e, $$.vars.draw_size, $$.faded(0.1) || '#0000000a' );  break;
+            case 'crayon' :    $$.pen(e, $$.vars.draw_size, $$.faded(0.2) || '#0000000a' );  break;
             case 'line'  :     $$.stylus.start($$.vars.color); ctx.lineWidth = size;         break;
             case 'eraser':     $$.composition("destination-out");  $$.pen(e, $$.vars.draw_size, $$.vars.color, true);    break;                //ctx.clearRect(e.offsetX - half, e.offsetY -half, size, size); break;
             case 'smart_text': $$.draw_text(ctx, $$.vars.STT, Math.floor(X - half), Math.floor(Y + half), $$.vars.color, size*2, e);  break;   //keep it in middle
@@ -687,8 +733,9 @@ const $$ = {
           }
     },
     onMobile  : ()=> (window.matchMedia("only screen and (max-width: 760px)").matches && navigator.userAgent.search(/mobile|iPhone|Android|iPad/) > -1 ) ? true : false,
-
-
+    hide_this : function(names){
+       names.forEach( item => show_this( item, 'none') );
+    }
 }
 
 const main = function(){
@@ -716,8 +763,10 @@ const main = function(){
                  case 'gallery':  $$.openGallery();       break;
 
                  case 'pen':     case 'pencil':  case 'marker': case 'text-to-paper': case 'select': case 'stamper':
-                 case 'eraser':  case 'crayon':  $$.vars.type = className;  activate(e.target);   break;
-                 case 'line'  :    $$.vars.type = className;  activate(e.target);   break;
+                 case 'eraser':  case 'crayon':   case 'line'  :
+                       $$.vars.type = className;  activate(e.target);
+                       $$.hide_this( [qu('.tracker'), qu('.keyboard-options')]);
+                 break;
 
                  case 'smart_text':  $$.vars.type = className;  activate(e.target.parentElement);   break;
                  case 'color' :      $$.openPicker();                                 break;
@@ -729,7 +778,7 @@ const main = function(){
                  case  'trash':   $$.clearCanvas(); $$.vars.FILES.loaded = {};  $$.saveCanvasImage(e); break;    //SAVE ONE EMPTY CLEARED SCREEN FOR LINE
              }
 
-              if($$.vars.type != 'eraser') $$.composition(null);
+              // if($$.vars.type != 'eraser' || $$.vars.type != 'stamper') $$.composition(null);
               ($$.vars.type == 'crayon') ? $$.alpha(0.03900) : $$.alpha(null);   //0.03849  fadest
     });
     // GALLERY CONTROL START DELETE MODE
@@ -764,15 +813,11 @@ const main = function(){
 
           // SPECIAL CASSES to work on light touching of trackpad/screen
           switch($$.vars.type){
-                case 'line':   $$.draw(e);  $$.saveCanvasImage(e);         break;
-                case 'select' : show_this(qu('.tracker'), 'none');         break;
-                case 'stamper': case 'pen': case 'smart_text': case 'eraser':
-                          $$.draw(e);
-                break;
+                case 'line':    $$.draw(e);  $$.saveCanvasImage(e);                         break;
+                case 'select' : $$.hide_this([qu('.tracker'), qu('.keyboard-options') ]);   break;
+                case 'stamper': case 'pen': case 'smart_text': case 'eraser': $$.draw(e);   break;
           }
     });
-    //HIDE ALL WHEN OUTSIDE
-    $$.query.paper.addEventListener( $$.vars.gestures[3] , e=> show_this(qu('.tracker'), 'none') );
     //MOUSEMOVE
     $$.query.paper.addEventListener( $$.vars.gestures[1], e =>{   //mousemove || touchmove
         if($$.vars.DRAWING) $$.draw(e);
@@ -812,6 +857,7 @@ const main = function(){
                   draw_multiline_text(ctx, $$.vars.uploaded_TEXT, Shape.x, Shape.y , $$.vars.color, $$.vars.draw_size, Shape.width || canvas.clientWidth);
                   show_this(qu('.tracker'), 'none');
             break;
+            case 'select': if(qu('.tracker').style.display != 'none') show_this(qu('.keyboard-options'), 'grid');  break;
        }
        let weSaved = ['line'];
        if( weSaved.includes($$.vars.type) == false) $$.saveCanvasImage(e); //AUTO SAVE IMAGE
@@ -827,6 +873,7 @@ const main = function(){
         $$.resizeToWindow();
         $$.fillHelp();
         $$.preDesignSetup();
+        $$.createCompositions();
         style_set('--date', JSON.stringify(new Date().toLocaleDateString()) );
    });
    window.addEventListener('keydown', e=>{
@@ -845,6 +892,7 @@ const main = function(){
 
    // SET ON START
    $$.colorPicker(); //START COLOR PICKER with color pallete
+   $$.createOptions();
    $$.readUploadedFile(qu('#readFile'));
 }
 

@@ -1,8 +1,8 @@
 const HELP={
-  "About" : "Hello stranger, my name is PAPER. I've been created, to make notes, by drawing, fast, versatile and easy",
+  "About" : "Hello stranger, my name is PAPER, I've been created for sketching...",
   "⏻"     : "Power",
   "+"     : "Upload image file",
-  "fs"    : "File Save (to GALLERY)",
+  "fs"    : "File Save (to GALLERY) (only with PHP)",
   "⮐"    : "Undo last draw",
   "⮑"    : "Redo last undo",
   "⛏"     : "Export as: [width/height/type] OR use default",
@@ -11,27 +11,18 @@ const HELP={
   "m"     : "Marker is fixed size and lighter color shade",
   "c"     : "Crayon add's light shades",
   "🆃"    : "Uploaded text can be put onto paper, select box from where and width to wrap around",
-  "⛶"     : `
-<pre>
-Select box creates selection of paper:
-
-Select box commands after selection:
+  "⛶"     : `<pre>Select box creates selection of paper. Options:
 ⌫     : Delete
 space : draw <span class='large'>◻︎</span>
 o     : draw <span class='large'>◯</span>
 x     : Cut (copy+delete)
 c     : Copy
 v     : Paste
-s     : Save cut to Gallery
-</pre>
-  `,
-  "⏊"     :  `<pre>
-Stamper stamps, or draw\'s with uploaded image
-Commands:
+s     : Save cut to Gallery</pre>`,
+  "⏊"     :  `<pre>Stamper stamps, or draw\'s with uploaded image. Options:
 0     : Revert to natural size
 -     : Diminish image size
-+/=   : Enlarge image size
-</pre>`,
++/=   : Enlarge image size</pre>`,
   "//" : "Smart text allows user to pick any character as pointer in draw",
   "▊"    : "Eraser",
   "⟶"   : "Line",
@@ -41,8 +32,7 @@ Commands:
   "?"    : "Help",
   "point-control" : `・・・・・・<span class="large">●</span>・・        (0-max) = stroke, max = fill shape`,
   "<span style='color:var(--bluish)'>.</span>" : "Data inside...",
-  "Keyboard" : `
-<pre style="white-space:pre!important;">
+  "Keyboard" : `<pre style="white-space:pre!important;">
 KEYBOARD shortcuts
 ________________________________
 ESC . . . . . . . . . . . .  POW
@@ -51,13 +41,11 @@ TAB q w e r t y u i <span class="bitno">o</span> p [ ]   EE
 ===  a <span class="bitno">s</span> d f g h j k l ; ' \\
 == ~ z <span class="bitno">x c v </span> b n m , . /   SHIFT
 = ^ ⌥ ⌘ <span class="bitno">▬▬▬▬▬▬▬▬▬▬▬</span> ⌘ ⌥    ◀︎ ▲ ▶︎
-</pre>
-              `,
-  "templates": `<pre style="white-space: break-spaces"></pre>`
+</pre>`,
+  "composition"   :  `<pre></pre>`,
+  "templates": `<pre style="white-space: break-spaces"></pre>`,
 
 }
-
-
 
 
 const MIME = {
